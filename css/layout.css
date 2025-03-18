@@ -1,0 +1,216 @@
+/* ==========================================================================
+   Main Layout
+========================================================================== */
+.main {
+  margin-top: var(--spacing-11);
+  padding: var(--spacing-08) 0;
+}
+
+/* ==========================================================================
+   Projects Section
+========================================================================== */
+.section {
+  margin-top: var(--spacing-09);
+}
+
+.section-title {
+  font-family: var(--font-en);
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: var(--spacing-05);
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 固定為3欄佈局 */
+  gap: var(--spacing-07);
+}
+
+.projects-header + .project-grid {
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+}
+
+/* ==========================================================================
+   About Page Layout
+========================================================================== */
+.about-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* 將頁面分成兩等份 */
+  gap: var(--spacing-09);
+  margin-top: var(--spacing-09);
+}
+
+.image-section {
+  display: flex;
+  justify-content: flex-start; /* 靠左對齊 */
+}
+
+.about-img {
+  width: 320px;
+  height: 320px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.about-content {
+  max-width: 720px;
+}
+
+.about-content h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: var(--spacing-05);
+}
+
+.about-description p {
+  margin-bottom: var(--spacing-05);
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   Mobile-specific Layout
+========================================================================== */
+.nav-links.mobile {
+  display: none;
+}
+
+.lang-toggle.mobile {
+  display: none;
+}
+
+.theme-toggle.mobile {
+  position: static;
+}
+
+/* 手機版控制按鈕群組 */
+.mobile-controls {
+  display: flex;
+  gap: var(--spacing-05);
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+/* 漢堡選單游標修復 */
+.menu-toggle,
+.menu-toggle span,
+.menu-toggle.active span {
+  cursor: pointer !important;
+}
+
+/* ==========================================================================
+   Responsive Design
+========================================================================== */
+@media (max-width: 1200px) {
+  .project-grid {
+    grid-template-columns: repeat(2, 1fr); /* 中等螢幕顯示2欄 */
+  }
+
+  .projects-header + .project-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  #cursor {
+    display: none;
+  }
+
+  .container {
+    padding: 0 var(--spacing-05);
+  }
+
+  .nav-wrapper {
+    height: 72px;
+  }
+
+  .logo-icon {
+    height: 28px;
+  }
+
+  .nav-links.desktop {
+    display: none;
+  }
+
+  .nav-links.mobile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-07);
+    align-items: flex-start;
+  }
+
+  .nav-link {
+    font-size: 2rem;
+    width: 100%;
+  }
+
+  /* 隱藏原本的控制項，顯示手機版 */
+  .nav-controls {
+    display: none;
+  }
+
+  .mobile-nav-controls {
+    display: block;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .theme-toggle.desktop {
+    display: none;
+  }
+
+  .theme-toggle.mobile {
+    display: block;
+  }
+
+  .lang-toggle.mobile {
+    display: block;
+  }
+
+  .mobile-controls {
+    margin-top: auto;
+    margin-bottom: var(--spacing-09);
+    padding: 0 var(--spacing-05);
+  }
+
+  .header-title {
+    font-size: 2.5rem;
+  }
+
+  .header-description {
+    font-size: 1.25rem;
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .projects-header + .project-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+
+  .line {
+    width: 100%;
+  }
+
+  .filter-tags {
+    max-width: 100%;
+  }
+
+  .filter-tag {
+    height: 2rem;
+  }
+
+  .about-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .about-img {
+    width: 160px;
+    height: 160px;
+  }
+}

@@ -1,0 +1,584 @@
+/* ==========================================================================
+   Navigation Components
+========================================================================== */
+/* Nav 基本樣式 */
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: var(--background);
+  z-index: 100;
+  transition: transform 0.3s ease, background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, background-color; /* 提高性能 */
+}
+
+/* 隱藏時的樣式 */
+.nav.nav-hidden {
+  transform: translateY(-100%);
+}
+
+.nav-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-07);
+}
+
+/* Logo 樣式 */
+.logo {
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logo-icon {
+  height: 32px;
+  width: auto;
+  aspect-ratio: 92/50;
+  background-color: var(--icon-primary);
+  mask-image: url(../assets/Logo.svg);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  -webkit-mask-image: url(../assets/Logo.svg);
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+}
+
+.logo:hover {
+  transform: translateY(-4px);
+}
+
+.logo-icon:hover {
+  background-color: var(--button-primary);
+}
+
+/* Navigation Links */
+.nav-links {
+  display: flex;
+  gap: var(--spacing-05);
+}
+
+.nav-link {
+  padding: var(--spacing-03);
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+}
+
+.nav-link .active {
+  color: var(--text-primary);
+}
+
+/* Nav Controls */
+.nav-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-05);
+}
+
+/* 手機版漢堡按鈕容器 */
+.mobile-nav-controls {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: var(--spacing-05);
+  z-index: 1000;
+  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, opacity;
+}
+
+/* 漢堡選單隱藏時的樣式 */
+.mobile-nav-controls.nav-hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+/* 漢堡選單打開時，確保不會隱藏 */
+.menu-toggle.active ~ .mobile-nav-controls,
+.fullscreen-menu.active ~ .mobile-nav-controls {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
+}
+
+/* ==========================================================================
+   Mobile Menu
+========================================================================== */
+/* Menu Toggle Button */
+.menu-toggle {
+  display: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.menu-toggle span {
+  position: absolute;
+  left: 50%;
+  width: 24px;
+  height: 2px;
+  background: var(--text-primary);
+  transform-origin: center;
+  /* 默認狀態（關閉時）：先旋轉回平行，再分開位置 */
+  transition: transform 0.3s ease, top 0.3s ease 0.3s;
+}
+
+.menu-toggle span:nth-child(1) {
+  top: 40%;
+  transform: translate(-50%, -50%) rotate(0);
+}
+
+.menu-toggle span:nth-child(2) {
+  top: 60%;
+  transform: translate(-50%, -50%) rotate(0);
+}
+
+/* 開啟狀態：先移動到中間，再旋轉成叉叉 */
+.menu-toggle.active span {
+  transition: top 0.3s ease, transform 0.3s ease 0.3s;
+}
+
+.menu-toggle.active span:nth-child(1) {
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Fullscreen Menu */
+.fullscreen-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: var(--layer-01);
+  z-index: 900;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fullscreen-menu.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--spacing-11) var(--spacing-05) var(--spacing-05);
+}
+
+/* ==========================================================================
+   Language & Theme Toggle
+========================================================================== */
+/* Language Toggle */
+.lang-toggle {
+  height: 28px;
+  width: 48px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-02);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.lang-toggle:hover {
+  background: var(--background-hover);
+  color: var(--text-primary);
+}
+
+/* Theme Toggle Base */
+.theme-toggle {
+  width: 48px;
+  height: 28px;
+  border-radius: var(--radius-02);
+  background: transparent;
+  border: solid 1px var(--border);
+  cursor: pointer;
+  padding: 4px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+}
+
+/* Switch Track */
+.switch {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+/* Switch Handle */
+.switch-handle {
+  width: 18px;
+  height: 18px;
+  background: var(--text-secondary);
+  border-radius: 9px;
+  position: absolute;
+  left: 0;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle:hover {
+  background: var(--background-hover);
+}
+
+.theme-toggle:hover .switch-handle {
+  background: var(--text-primary);
+}
+
+/* Dark Theme States */
+[data-theme="dark"] .switch-handle {
+  transform: translateX(20px);
+}
+
+/* ==========================================================================
+   Project Cards & Tags
+========================================================================== */
+.project-card {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden; /* 防止內容溢出 */
+}
+
+.project-image {
+  display: block;
+  border-radius: var(--radius-01);
+  width: 100%;
+  padding-top: 66.67%;
+  position: relative;
+  background: var(--grey20);
+  overflow: hidden; /* 確保放大的圖片不會超出容器 */
+}
+
+.project-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 101%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 只有圖片會放大，容器保持不變 */
+.project-image:hover img {
+  transform: scale(1.05);
+}
+
+.project-info {
+  padding-top: var(--spacing-05);
+}
+
+.project-title {
+  font-size: 1.125rem;
+  font-weight: 400;
+  margin-bottom: var(--spacing-01);
+}
+
+.project-description {
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-03);
+  font-size: 1rem;
+}
+
+.project-tags {
+  display: flex;
+  gap: var(--spacing-03);
+  flex-wrap: wrap;
+}
+
+.tag {
+  display: flex;
+  background: var(--layer-01);
+  height: 28px;
+  padding: 0px 12px;
+  border-radius: var(--radius-02);
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+}
+
+/* Filter Tags */
+.filter-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-03);
+  margin-bottom: var(--spacing-09);
+  max-width: 50%;
+}
+
+.filter-tag {
+  background-color: var(--layer-01);
+  color: var(--text-primary);
+  font-family: var(--font-en);
+  border: 0px;
+  padding: 0 16px;
+  height: 2.5rem;
+  border-radius: 1.25rem;
+  font-size: 1rem;
+}
+
+.filter-tag:hover {
+  background-color: var(--layer-hover-01);
+  color: var(--text-primary);
+}
+
+.filter-tag.active {
+  background-color: var(--layer-active-01);
+  color: var(--text-on-color);
+}
+
+我看到您的 CSS 代碼中有一個衝突問題，這正是造成文字很短就換行的原因。您在同一個檔案中定義了 .line 選擇器兩次，而且有相互衝突的屬性值： 第一個定義中： cssCopy.line {
+  width: 70%;
+  position: relative;
+  overflow: visible; /* 這裡是 visible */
+  margin-bottom: var(--spacing-03);
+}
+
+第二個定義中（文字動畫樣式）： cssCopy.line {
+  position: relative;
+  overflow: hidden; /* 這裡是 hidden */
+  display: flex; /* 添加了 flex 顯示，但沒有定義 width */
+}
+
+/* ==========================================================================
+   Line Animation Components (Homepage)
+========================================================================== */
+
+.line {
+  width: 70%;
+  position: relative;
+  overflow: visible;
+  margin-bottom: var(--spacing-03);
+}
+
+.line span {
+  display: block;
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  line-height: 1.2;
+  white-space: normal;
+  width: 100%;
+}
+
+/* 第三行的樣式 */
+.line:nth-child(3) span {
+  margin-top: var(--spacing-03);
+  font-size: clamp(1rem, 3vw, 1.75rem);
+  color: var(--text-secondary);
+}
+
+/* 文字顯示動畫基本樣式 */
+.reveal-text {
+  visibility: hidden;
+}
+
+/* 只為 reveal-text 內的 line 設置特定動畫屬性 */
+.reveal-text .line {
+  overflow: hidden;
+  display: flex;
+}
+
+.reveal-text .words {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* 確保不破壞現有樣式 */
+.reveal-text .line,
+.reveal-text .words,
+.reveal-text .word,
+.reveal-text .whitespace,
+.reveal-text .hyphen {
+  margin: 0;
+  padding: 0;
+  line-height: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  font-family: inherit;
+}
+
+/* 首頁標題動畫特殊處理 */
+.homepage-heading {
+  width: 70%; /* 保持原有寬度 */
+  position: relative;
+  overflow: hidden; /* 隱藏超出部分用於動畫 */
+  margin-bottom: var(--spacing-03);
+}
+
+.homepage-heading span {
+  display: block;
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  line-height: 1.2;
+  white-space: normal;
+  width: 100%;
+  /* 移除動畫相關屬性，由 GSAP 處理 */
+}
+
+/* 保持第三行特殊樣式 */
+.header .homepage-heading:nth-child(3) span {
+  margin-top: var(--spacing-03);
+  font-size: clamp(1rem, 3vw, 1.75rem);
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   Custom Cursor
+========================================================================== */
+/* 設定基本系統游標 */
+html,
+body,
+main,
+section,
+div {
+  cursor: default !important;
+}
+
+/* 設定按鈕和互動元素的系統游標 */
+a,
+button,
+.nav-link,
+.theme-toggle,
+.lang-toggle,
+.menu-toggle,
+.project-card {
+  cursor: pointer !important;
+}
+
+/* Theme toggle 整個按鈕區域都要有 pointer */
+.theme-toggle {
+  cursor: pointer !important;
+}
+
+/* 項目圖片區域 */
+.project-image,
+.project-image img,
+[cursor-class="card-hover"] {
+  cursor: pointer !important;
+}
+
+/* 文字區域游標設定 */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea,
+.line,
+.line span {
+  cursor: text !important;
+}
+
+/* 自訂游標容器 */
+#cursor {
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+/* 自訂游標圓圈 */
+.cursor__circle {
+  width: 16px;
+  height: 16px;
+  margin-top: -8px;
+  margin-left: -8px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1), margin 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--icon-on-color);
+  background-image: url("../assets/arrow.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 0px;
+}
+
+/* 一般可點擊元素游標狀態 */
+#cursor.clickable .cursor__circle {
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  margin-left: -12px;
+  background-color: var(--button-primary);
+}
+
+/* 卡片 hover 游標狀態 */
+#cursor.card-hover .cursor__circle {
+  width: 80px;
+  height: 80px;
+  margin-top: -40px;
+  margin-left: -40px;
+  background-color: var(--button-primary);
+  background-size: 64px;
+}
+
+/* 深色主題適配 */
+[data-theme="dark"] .cursor__circle {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Footer */
+footer {
+  margin-top: auto; /* 確保 footer 始終在底部 */
+  padding-top: var(--spacing-09);
+  font-family: var(--font-mono);
+}
+
+/* 防止動畫抖動的額外樣式 */
+.header .line span,
+.section-title,
+.filter-tags,
+.project-card {
+  backface-visibility: hidden; /* 防止 3D 變換時出現的渲染問題 */
+  transform-style: preserve-3d; /* 同上 */
+  transform: translateZ(0); /* 觸發硬體加速 */
+  will-change: transform, opacity; /* 告訴瀏覽器這些屬性將要變化 */
+}
+
+/* 重要：防止 filter-tags 容器在空時塌陷 */
+.filter-tags {
+  min-height: 2.5rem; /* 與 filter-tag 按鈕高度一致 */
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* 防止 project-grid 在卡片加載時發生布局變動 */
+.project-grid {
+  min-height: 100px; /* 給一個最小高度 */
+}

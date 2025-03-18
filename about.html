@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About - Milli's Portfolio</title>
+    <link rel="icon" href="./assets/Favicon.svg" />
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <!-- GSAP 庫 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  </head>
+  <body>
+    <!-- Main Content -->
+    <main class="main">
+      <div class="container">
+        <div class="about-wrapper">
+          <section class="image-section">
+            <img class="about-img" src="./assets/DSC00416.JPG" alt="A photo of Milli." />
+          </section>
+
+          <section class="about-content">
+            <h1 data-lang-key="name"></h1>
+            <div class="about-description">
+              <p data-lang-key="introduce1">
+                I'm a UI/UX designer with 3 years of experience, focused on creating intuitive digital experiences. I worked as a UI designer at WEBA, developing a mobile-first No-Code platform that
+                helps SMEs quickly build interactive webpages.
+              </p>
+              <p data-lang-key="introduce2">My design approach balances user needs with business objectives, creating solutions that are both visually appealing and effective.</p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <script type="module">
+      import { initializeSharedComponents } from "./js/components.js";
+      import "./js/main.js"; // 導入主要 JS 文件
+
+      document.addEventListener("DOMContentLoaded", () => {
+        initializeSharedComponents();
+      });
+    </script>
+  </body>
+</html>
