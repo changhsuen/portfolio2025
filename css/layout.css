@@ -136,13 +136,18 @@
   .nav-links.mobile {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-07);
+    gap: var(--spacing-09);
     align-items: flex-start;
   }
 
   .nav-link {
     font-size: 2rem;
     width: 100%;
+  }
+
+  .nav-links.mobile .nav-link {
+    /* 確保有足夠的內容高度 */
+    min-height: 48px;
   }
 
   /* 隱藏原本的控制項，顯示手機版 */
@@ -172,7 +177,7 @@
 
   .mobile-controls {
     margin-top: auto;
-    margin-bottom: var(--spacing-09);
+    /* margin-bottom: var(--spacing-09); */
     padding: 0 var(--spacing-05);
   }
 

@@ -37,12 +37,12 @@
 /* 專案橫幅 */
 .project-banner {
   width: 100%;
-  height: 50vh;
+  height: 70vh;
   min-height: 400px;
   background-size: cover;
   background-position: center;
   margin-bottom: var(--spacing-07);
-  border-radius: var(--radius-02);
+  border-radius: var(--radius-01);
   position: relative;
   overflow: hidden;
 }
@@ -69,21 +69,21 @@
   padding-right: var(--spacing-05);
 }
 
-.project-section-right {
+/* .project-section-right {
   max-width: 720px;
-}
+} */
 
 /* 專案信息卡片 */
 .project-info-grid {
   display: grid;
+  background-color: var(--layer-01);
+  border-radius: var(--radius-01);
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: var(--spacing-07);
   margin-bottom: var(--spacing-07);
 }
 
 .info-card {
-  background-color: var(--layer-01);
-  border-radius: var(--radius-02);
   padding: var(--spacing-05);
   transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
