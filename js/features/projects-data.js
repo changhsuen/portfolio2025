@@ -19,7 +19,7 @@ export const projectsData = {
       image: "./projects/img/cnywb-cover.gif",
       link: "projects/cnywb.html",
       tags: ["平面設計", "動態圖像"],
-      showOnHomepage: false,
+      showOnHomepage: true,
     },
     project3: {
       title: "企業品牌識別",
@@ -37,10 +37,10 @@ export const projectsData = {
       tags: ["介面設計", "SaaS", "使用者研究"],
       showOnHomepage: true,
     },
-    project5: {
-      title: "電子商務網站",
-      description: "設計直覺且轉換率高的電商購物體驗，優化從瀏覽到結帳的流程",
-      image: "./assets/img/project5-cover.jpg",
+    fishEssence: {
+      title: "甲芝魚精",
+      description: "魚精包裝設計",
+      image: "./projects/img/甲芝魚精盒.jpg",
       link: "projects/project5.html",
       tags: ["介面設計", "使用者研究", "原型設計"],
       showOnHomepage: false,
@@ -48,7 +48,7 @@ export const projectsData = {
     project6: {
       title: "電子商務網站",
       description: "設計直覺且轉換率高的電商購物體驗，優化從瀏覽到結帳的流程",
-      image: "./assets/img/project5-cover.jpg",
+      image: "./projects/img",
       link: "projects/project5.html",
       tags: ["介面設計", "使用者研究", "原型設計"],
       showOnHomepage: false,
@@ -59,8 +59,7 @@ export const projectsData = {
   en: {
     project1: {
       title: "Web Design System",
-      description:
-        "Developed a comprehensive design system for enterprise, ensuring brand consistency and development efficiency",
+      description: "Developed a comprehensive design system for enterprise, ensuring brand consistency and development efficiency",
       image: "./assets/img/project1-cover.jpg",
       link: "projects/project1.html",
       tags: ["UI Design", "Design System"],
@@ -72,7 +71,7 @@ export const projectsData = {
       image: "./projects/img/cnywb-cover.gif",
       link: "projects/cnywb.html",
       tags: ["Graphic Design", "Motion Graphic"],
-      showOnHomepage: false,
+      showOnHomepage: true,
     },
     project3: {
       title: "Corporate Brand Identity",
@@ -90,19 +89,17 @@ export const projectsData = {
       tags: ["UI Design", "SaaS", "UX Research"],
       showOnHomepage: true,
     },
-    project5: {
-      title: "E-commerce Website",
-      description:
-        "Designed an intuitive and high-converting shopping experience, optimizing the browse-to-checkout flow",
-      image: "./assets/img/project5-cover.jpg",
+    fishEssence: {
+      title: "Jiazhi fish essence",
+      description: "Designed an intuitive and high-converting shopping experience, optimizing the browse-to-checkout flow",
+      image: "./projects/img/甲芝魚精盒.jpg",
       link: "projects/project5.html",
       tags: ["UI Design", "UX Research", "Prototyping"],
       showOnHomepage: false,
     },
     project6: {
       title: "E-commerce Website",
-      description:
-        "Designed an intuitive and high-converting shopping experience, optimizing the browse-to-checkout flow",
+      description: "Designed an intuitive and high-converting shopping experience, optimizing the browse-to-checkout flow",
       image: "./assets/img/project5-cover.jpg",
       link: "projects/project5.html",
       tags: ["UI Design", "UX Research", "Prototyping"],
