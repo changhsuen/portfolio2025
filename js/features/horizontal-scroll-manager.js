@@ -224,20 +224,71 @@ export const HorizontalScrollManager = {
     // 檢查是否是橫向滾動畫廊
     const isHorizontalGallery = gallery.classList.contains("projects-scroll-gallery");
 
+    // 映射標籤到過濾鍵的關係
+    const tagMappings = {
+      "zh-TW": {
+        介面設計: "ui-design",
+        使用者研究: "ux-research",
+        設計系統: "design-system",
+        圖標設計: "iconography",
+        原型設計: "prototyping",
+        品牌識別: "brand-identity",
+        SaaS: "saas",
+        平面設計: "graphic-design",
+        動態圖像: "motion-graphic",
+      },
+      en: {
+        "UI Design": "ui-design",
+        "UX Research": "ux-research",
+        "Design System": "design-system",
+        Iconography: "iconography",
+        Prototyping: "prototyping",
+        "Brand Identity": "brand-identity",
+        SaaS: "saas",
+        "Graphic Design": "graphic-design",
+        "Motion Graphic": "motion-graphic",
+      },
+    };
+
     // 渲染每個專案卡片
     homepageProjects.forEach((project) => {
       const card = document.createElement("div");
       card.className = "project-card";
+      card.setAttribute("data-project-id", project.id);
 
-      // 生成標籤 HTML
-      const tagsHTML = project.tags.map((tag) => `<span class="tag">${tag}</span>`).join("");
+      // 檢查路徑是否需要調整 (處理從子資料夾訪問時的路徑問題)
+      const isInSubfolder = window.location.pathname.includes("/projects/");
+      let imagePath = project.image;
+      let linkPath = project.link;
+
+      // 調整路徑
+      if (isInSubfolder && imagePath.startsWith("./")) {
+        imagePath = `../${imagePath.substring(2)}`;
+      } else if (isInSubfolder) {
+        imagePath = `../${imagePath}`;
+      }
+
+      if (isInSubfolder && linkPath.startsWith("./")) {
+        linkPath = `../${linkPath.substring(2)}`;
+      } else if (isInSubfolder && !linkPath.startsWith("../")) {
+        linkPath = `../${linkPath}`;
+      }
+
+      // 生成帶過濾屬性的標籤 HTML
+      const tagsHTML = project.tags
+        .map((tag) => {
+          // 查找標籤對應的過濾鍵
+          const filterKey = tagMappings[language]?.[tag] || "";
+          return `<span class="tag" data-filter="${filterKey}">${tag}</span>`;
+        })
+        .join("");
 
       // 根據是否為橫向滾動畫廊使用不同的HTML結構
       if (isHorizontalGallery) {
         // 新布局結構 - 只用於橫向滾動畫廊
         card.innerHTML = `
-          <a href="${project.link}" class="project-image" cursor-class="card-hover">
-            <img src="${project.image}" alt="${project.title}" loading="lazy" />
+          <a href="${linkPath}" class="project-image" cursor-class="card-hover">
+            <img src="${imagePath}" alt="${project.title}" loading="lazy" />
           </a>
           <div class="project-info">
             <h3 class="project-title">${project.title}</h3>
@@ -250,8 +301,8 @@ export const HorizontalScrollManager = {
       } else {
         // 原始布局結構 - 用於projects.html頁面
         card.innerHTML = `
-          <a href="${project.link}" class="project-image" cursor-class="card-hover">
-            <img src="${project.image}" alt="${project.title}" loading="lazy" />
+          <a href="${linkPath}" class="project-image" cursor-class="card-hover">
+            <img src="${imagePath}" alt="${project.title}" loading="lazy" />
           </a>
           <div class="project-info">
             <h3 class="project-title">${project.title}</h3>
@@ -265,6 +316,34 @@ export const HorizontalScrollManager = {
 
       gallery.appendChild(card);
     });
+
+    // 檢查是否已應用輪播效果
+    const isCarousel = gallery.classList.contains("project-carousel");
+
+    // 在首頁，為每張卡片添加特殊類別以便動畫系統識別
+    if (this.isHomePage()) {
+      gallery.querySelectorAll(".project-card").forEach((card) => {
+        card.classList.add("homepage-card");
+
+        // 判斷是否應該設置為不可見
+        // 如果已經應用了輪播效果，則不要設置為不可見，由輪播管理器處理
+        if (!isCarousel) {
+          gsap.set(card, { opacity: 0, y: 20 });
+        } else {
+          // 如果已經應用了輪播效果，確保卡片是可見的
+          gsap.set(card, { opacity: 1, y: 0 });
+        }
+      });
+    }
+    // 在專案頁面，等待過濾系統處理
+    else if (document.querySelector(".projects-header")) {
+      gallery.querySelectorAll(".project-card").forEach((card) => {
+        // 移除首頁特殊類別（如果有）
+        card.classList.remove("homepage-card");
+        // 先設置為不可見，等待動畫系統觸發
+        gsap.set(card, { opacity: 0, y: 20 });
+      });
+    }
   },
 
   // 更新專案卡片（語言變更時使用）
@@ -381,8 +460,8 @@ export const HorizontalScrollManager = {
 
       // 為每張圖片添加輕微的水平視差效果
       projectImages.forEach((img) => {
-        // 對於寬度更大的圖片(50%)，可以適當增加視差係數
-        const parallaxFactor = 0.05; // 增加到12%，因為有更多空間移動
+        // 可以適當增加視差係數
+        const parallaxFactor = -0.02;
 
         // 計算視差位移量
         const parallaxOffset = scrollDistance * parallaxFactor;
@@ -410,7 +489,7 @@ export const HorizontalScrollManager = {
           // 應用縮放效果，同時保持當前的位置
           gsap.to(img, {
             scale: 1.1,
-            duration: 0.2,
+            duration: 0.1,
             ease: "cubic-bezier(0.17, 0.35, 0.01, 1)",
             overwrite: "auto",
           });

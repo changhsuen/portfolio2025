@@ -65,6 +65,14 @@ export const projectsData = {
       tags: ["UI Design", "Design System"],
       showOnHomepage: true,
     },
+    habu: {
+      title: "Coffee HABU",
+      description: "Visual identity for new opening cafe.",
+      image: "./projects/img/HABU_cover.jpg",
+      link: "projects/project1.html",
+      tags: ["UI Design", "Design System"],
+      showOnHomepage: true,
+    },
     cnywb: {
       title: "Chinese New Year without Borders",
       description: "The 5th Taiwan Creative Star Design Award - Yang Yu-Long Jury Award",
@@ -76,7 +84,7 @@ export const projectsData = {
     project3: {
       title: "Corporate Brand Identity",
       description: "Developed brand identity for a startup, including logo, color system, and various applications",
-      image: "./assets/img/project3-cover.jpg",
+      image: "./projects/img/HABU_cover.jpg",
       link: "projects/project3.html",
       tags: ["Brand Identity", "Iconography"],
       showOnHomepage: true,
@@ -84,7 +92,7 @@ export const projectsData = {
     project4: {
       title: "SaaS Platform Redesign",
       description: "Redesigned an enterprise SaaS platform to enhance user experience and workflow efficiency",
-      image: "./assets/img/project4-cover.jpg",
+      image: "./projects/img/HABU_cover.jpg",
       link: "projects/project4.html",
       tags: ["UI Design", "SaaS", "UX Research"],
       showOnHomepage: true,
@@ -92,7 +100,7 @@ export const projectsData = {
     fishEssence: {
       title: "Jiazhi fish essence",
       description: "Designed an intuitive and high-converting shopping experience, optimizing the browse-to-checkout flow",
-      image: "./projects/img/甲芝魚精盒.jpg",
+      image: "./projects/img/HABU_cover.jpg",
       link: "projects/project5.html",
       tags: ["UI Design", "UX Research", "Prototyping"],
       showOnHomepage: false,
@@ -100,7 +108,7 @@ export const projectsData = {
     project6: {
       title: "E-commerce Website",
       description: "Designed an intuitive and high-converting shopping experience, optimizing the browse-to-checkout flow",
-      image: "./assets/img/project5-cover.jpg",
+      image: "./projects/img/HABU_cover.jpg",
       link: "projects/project5.html",
       tags: ["UI Design", "UX Research", "Prototyping"],
       showOnHomepage: false,

@@ -76,9 +76,51 @@ function createCustomCursor() {
 // 創建並返回頁尾
 function createFooter() {
   return `
-    <footer>
-      <p>© 2025 Milli Chang. All Rights Reserved.</p>
-    </footer>
+    <footer class="enhanced-footer">
+  <div class="footer-content">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <div class="logo-icon footer-logo" aria-label="Milli"></div>
+        <p class="footer-tagline" data-lang-key="footerTagline">Crafting intuitive digital experiences with purpose</p>
+      </div>
+      
+      <div class="footer-sections">
+        <div class="footer-section">
+          <h3 class="footer-heading" data-lang-key="contact">Contact</h3>
+          <ul class="footer-links">
+            <li><a href="mailto:changhsuen@gmail.com" class="footer-link">changhsuen@gmail.com</a></li>
+            <li><a href="tel:+886938193135" class="footer-link">+886 938 193 135</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3 class="footer-heading" data-lang-key="connect">Connect</h3>
+          <ul class="footer-links">
+            <li><a href="https://linkedin.com/" target="_blank" class="footer-link">LinkedIn</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3 class="footer-heading" data-lang-key="links">Links</h3>
+          <ul class="footer-links">
+            <li><a href="projects.html" class="footer-link" data-lang-key="projects">Projects</a></li>
+            <li><a href="about.html" class="footer-link" data-lang-key="about">About</a></li>
+            <li><a href="assets/cv.pdf" target="_blank" class="footer-link" data-lang-key="cv">CV↗</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="copyright">
+        <p>© 2025 Milli Chang. <span data-lang-key="allRightsReserved">All Rights Reserved.</span></p>
+      </div>
+      <div class="footer-credit">
+        <p><span data-lang-key="designedBy">Designed & Built by</span> Milli Chang</p>
+      </div>
+    </div>
+  </div>
+</footer>
   `;
 }
 
@@ -86,6 +128,30 @@ function createFooter() {
 function getRelativePath(path) {
   const isInSubfolder = window.location.pathname.includes("/projects/");
   return isInSubfolder ? "../" + path : path;
+}
+
+// 添加 Google Analytics 追蹤代碼
+function addGoogleAnalytics() {
+  // 檢查是否已經添加過 Google Analytics 代碼
+  if (document.querySelector('script[src*="googletagmanager"]')) {
+    return;
+  }
+
+  // 創建並添加第一個 script 標籤（外部腳本）
+  const gaScript1 = document.createElement("script");
+  gaScript1.async = true;
+  gaScript1.src = "https://www.googletagmanager.com/gtag/js?id=G-8KTXEJX088";
+  document.head.appendChild(gaScript1);
+
+  // 創建並添加第二個 script 標籤（內聯腳本）
+  const gaScript2 = document.createElement("script");
+  gaScript2.innerHTML = `
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8KTXEJX088');
+  `;
+  document.head.appendChild(gaScript2);
 }
 
 // 初始化所有功能
@@ -131,6 +197,9 @@ function initializeSharedComponents() {
     console.log("共用元件已經初始化，跳過");
     return;
   }
+
+  // 添加 Google Analytics 追蹤代碼
+  addGoogleAnalytics();
 
   // 插入導航
   document.body.insertAdjacentHTML("afterbegin", createNavigation());
