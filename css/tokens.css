@@ -1,5 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 :root {
   /* Colors */
   --white: #ffffff;
@@ -51,8 +50,8 @@
   --icon-secondary: var(--grey60);
 
   /* Typography */
-  --font-tc: "IBM Plex Sans", sans-serif;
-  --font-en: "IBM Plex Sans", serif;
+  --font-tc: "Inter", sans-serif;
+  --font-en: "Inter", serif;
   --font-mono: "Space Mono", serif;
 
   /* Spacing */
@@ -82,8 +81,8 @@
   --screen-2xl: 1536px; /* @media (min-width: 1536px) */
 
   /* Transitions */
-  --theme-transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --theme-transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Dark Theme */

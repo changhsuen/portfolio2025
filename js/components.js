@@ -3,8 +3,6 @@ import { ThemeManager } from "./core/theme-manager.js";
 import { LanguageManager } from "./core/language-manager.js";
 import { NavbarScrollManager, MobileMenuManager } from "./core/nav-manager.js";
 import { CustomCursor } from "./features/cursor.js";
-// import { WowAnimationManager } from "./features/animation-manager.js"; // 移除 WOW.js
-// import { TextRevealManager } from "./features/text-reveal.js"; // 從這裡移除引入，避免重複初始化
 
 // 創建並返回導航欄元素
 function createNavigation() {

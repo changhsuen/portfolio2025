@@ -70,95 +70,71 @@
 
 .nav-link {
   position: relative;
-  perspective: 1000px;
   padding: var(--spacing-03);
   color: var(--text-secondary);
   text-decoration: none;
   font-family: var(--font-mono);
   transition: color 0.3s;
   display: block;
-  transform-style: preserve-3d;
-}
-
-/* 創建 3D 容器 */
-.nav-link-cube {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.17, 0.35, 0.01, 1);
-}
-
-/* hover 時旋轉 */
-.nav-link:hover .nav-link-cube {
-  transform: rotateX(90deg);
-}
-
-/* 基本面樣式，絕對定位以防止干擾布局 */
-.nav-link-face {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  backface-visibility: hidden;
-  background-color: transparent;
-  transform-style: preserve-3d;
-  padding: var(--spacing-03);
-}
-
-/* 前面的文字，位於原始位置 */
-.nav-link-front {
-  transform: translateZ(10px);
-  color: inherit;
-}
-
-/* 頂部的文字，旋轉90度後顯示 */
-.nav-link-top {
-  color: var(--text-primary);
-  transform: rotateX(-90deg) translateZ(10px);
-}
-
-/* 使用固定值替代變量計算，避免複雜性 */
-.nav-links.desktop .nav-link {
+  overflow: hidden; /* 非常重要：確保溢出內容被隱藏 */
   min-height: 32px;
 }
 
-/* 關鍵修改：保持原始連結文本可見，用於保持布局尺寸 */
-.nav-link::before {
-  content: attr(data-text);
-  opacity: 0;
-  visibility: hidden;
-  display: block;
-  height: 0;
+/* 隱藏舊的3D效果 */
+.nav-link-cube,
+.nav-link-face,
+.nav-link-front,
+.nav-link-top {
+  display: none !important;
 }
 
-/* 確保文字不會模糊 */
-.nav-link-face > * {
+/* 設置活動狀態 */
+.nav-link.active {
+  color: var(--text-primary);
+}
+
+.nav-link .text-container {
+  position: relative;
+  height: 1.2em; /* 基於字體大小的高度 */
+  line-height: 1.2;
+  overflow: hidden;
+}
+
+/* 隱藏的文字層 */
+.nav-link .hidden {
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1.2em;
+  white-space: nowrap;
+  color: var(--text-secondary);
+}
+
+/* 可見的文字層 */
+.nav-link .visible {
+  position: relative;
   display: inline-block;
+  white-space: nowrap;
 }
 
-/* 活動狀態 */
-.nav-link.active .nav-link-front {
-  color: var(--text-primary);
+/* 字母樣式 */
+.nav-link span {
+  display: inline-block;
+  will-change: transform;
 }
 
-.nav-link.active .nav-link-top {
-  color: var(--text-primary);
+/* 字母懸停效果 */
+.nav-link .letter {
+  cursor: pointer;
+  position: relative;
 }
 
-/* .nav-link:hover {
-  color: var(--text-primary);
+/* 當連結處於懸停狀態時，禁用字母的指針事件 */
+.nav-link.hovered span {
+  pointer-events: none;
 }
-
-.nav-link .active {
-  color: var(--text-primary);
-} */
 
 /* Nav Controls */
 .nav-controls {
@@ -348,7 +324,7 @@
   display: block;
   border-radius: var(--radius-01);
   width: 100%;
-  padding-top: 66.67%;
+  padding-top: 75%;
   position: relative;
   background: var(--grey20);
   overflow: hidden; /* 確保放大的圖片不會超出容器 */
@@ -366,7 +342,7 @@
 
 /* 只有圖片會放大，容器保持不變 */
 .project-image:hover img {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 .project-info {
@@ -432,19 +408,6 @@
   color: var(--text-on-color);
 }
 
-我看到您的 CSS 代碼中有一個衝突問題，這正是造成文字很短就換行的原因。您在同一個檔案中定義了 .line 選擇器兩次，而且有相互衝突的屬性值： 第一個定義中： cssCopy.line {
-  width: 70%;
-  position: relative;
-  overflow: visible; /* 這裡是 visible */
-  margin-bottom: var(--spacing-03);
-}
-
-第二個定義中（文字動畫樣式）： cssCopy.line {
-  position: relative;
-  overflow: hidden; /* 這裡是 hidden */
-  display: flex; /* 添加了 flex 顯示，但沒有定義 width */
-}
-
 /* ==========================================================================
    Line Animation Components (Homepage)
 ========================================================================== */
@@ -459,13 +422,14 @@
 .line span {
   display: block;
   font-size: clamp(1.5rem, 5vw, 3rem);
+  font-weight: 500;
   line-height: 1.2;
   white-space: normal;
   width: 100%;
 }
 
 /* 第三行的樣式 */
-.line:nth-child(3) span {
+.line:nth-child(2) span {
   margin-top: var(--spacing-03);
   font-size: clamp(1rem, 3vw, 1.75rem);
   color: var(--text-secondary);

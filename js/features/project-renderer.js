@@ -115,12 +115,22 @@ export const ProjectRenderer = {
       }
     });
 
+    // 檢查是否已應用輪播效果
+    const isCarousel = projectGrid.classList.contains("project-carousel");
+
     // 在首頁，為每張卡片添加特殊類別以便動畫系統識別
     if (isHomePage) {
       projectGrid.querySelectorAll(".project-card").forEach((card) => {
         card.classList.add("homepage-card");
-        // 先設置為不可見，等待動畫系統觸發
-        gsap.set(card, { opacity: 0, y: 20 });
+
+        // 判斷是否應該設置為不可見
+        // 如果已經應用了輪播效果，則不要設置為不可見，由輪播管理器處理
+        if (!isCarousel) {
+          gsap.set(card, { opacity: 0, y: 20 });
+        } else {
+          // 如果已經應用了輪播效果，確保卡片是可見的
+          gsap.set(card, { opacity: 1, y: 0 });
+        }
       });
     }
     // 在專案頁面，等待過濾系統處理

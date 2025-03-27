@@ -1,0 +1,226 @@
+/* ==========================================================================
+   Horizontal Scroll Section
+========================================================================== */
+.horizontal-scroll-wrapper {
+  position: relative;
+  width: 100vw; /* 使用視窗寬度 */
+  margin-left: calc(50% - 50vw); /* 負邊距技巧，使容器與視窗邊緣對齊 */
+  margin-right: calc(50% - 50vw);
+  margin-top: var(--spacing-05);
+  overflow: hidden; /* 避免水平滾動條 */
+}
+
+.horizontal-scroll-section {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  padding-left: var(--spacing-09); /* 與容器padding相同 */
+  padding-right: var(--spacing-09); /* 與容器padding相同 */
+  box-sizing: border-box;
+}
+
+.horizontal-title {
+  position: absolute;
+  top: var(--spacing-09);
+  left: var(--spacing-09); /* 與容器padding相同 */
+  z-index: 10;
+}
+
+.horizontal-title h2 {
+  font-family: var(--font-en);
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.scroll-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0;
+}
+
+.projects-scroll-gallery {
+  display: flex;
+  width: max-content;
+  margin-left: 0; /* 確保與內容對齊 */
+}
+
+/* 專案卡片樣式 */
+.horizontal-scroll-section .projects-scroll-gallery .project-card {
+  width: 40vw;
+  height: auto;
+  margin-right: var(--spacing-09);
+  border-radius: var(--radius-01);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: block;
+  aspect-ratio: 4/3;
+}
+
+/* 最後一個卡片樣式 - 確保有足夠的右側空間 */
+.horizontal-scroll-section .projects-scroll-gallery .project-card:last-child {
+  margin-right: var(--spacing-09); /* 與容器右側padding相同，確保最後對齊 */
+}
+
+/* 圖片容器與卡片同寬高 */
+.horizontal-scroll-section .projects-scroll-gallery .project-image {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  border-radius: var(--radius-01);
+}
+
+/* 圖片填滿整個卡片 */
+.horizontal-scroll-section .projects-scroll-gallery .project-image img {
+  position: absolute;
+  top: 0;
+  left: -10%; /* 向左偏移，讓圖片居中顯示 */
+  width: 120%; /* 加寬，為視差效果提供更多空間 */
+  height: 100%;
+  object-fit: cover;
+  will-change: transform; /* 提示瀏覽器這個元素會有變換 */
+}
+
+/* 標題和描述的容器，左上角定位 */
+.horizontal-scroll-section .projects-scroll-gallery .project-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: var(--spacing-05);
+  z-index: 2;
+}
+
+/* 標題樣式 */
+.horizontal-scroll-section .projects-scroll-gallery .project-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: var(--spacing-01);
+  color: #fff;
+}
+
+/* 描述樣式 */
+.horizontal-scroll-section .projects-scroll-gallery .project-description {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0; /* 移除底部邊距 */
+  font-size: 1rem;
+  display: none;
+}
+
+/* 標籤容器，左下角定位 */
+.horizontal-scroll-section .projects-scroll-gallery .project-tags {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: var(--spacing-05);
+  z-index: 2;
+  display: flex;
+  gap: var(--spacing-03);
+  flex-wrap: wrap;
+}
+
+/* 標籤樣式 */
+.horizontal-scroll-section .projects-scroll-gallery .project-tags .tag {
+  display: flex;
+  height: 28px;
+  padding: 0px 12px;
+  border-radius: var(--radius-02);
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.see-more-projects-container {
+  position: absolute;
+  bottom: var(--spacing-11);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  font-size: 1rem;
+  width: auto;
+  z-index: 10;
+}
+
+.see-more-projects {
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.see-more-projects:hover {
+  color: var(--text-primary);
+}
+
+/* 響應式調整 */
+@media (max-width: 1200px) {
+  .horizontal-scroll-section .projects-scroll-gallery .project-card {
+    width: 45vw;
+  }
+}
+
+@media (max-width: 768px) {
+  .horizontal-scroll-section {
+    height: auto;
+    overflow: visible;
+    padding-left: var(--spacing-05);
+    padding-right: var(--spacing-05);
+    padding-top: 60px; /* 為標題預留空間 */
+    display: flex; /* 使用flexbox布局 */
+    flex-direction: column; /* 垂直排列 */
+  }
+
+  .horizontal-title {
+    position: relative; /* 改為相對定位 */
+    top: 0;
+    left: 0;
+    margin-bottom: var(--spacing-07);
+    order: 1; /* 設置flexbox順序 */
+  }
+
+  .scroll-container {
+    position: relative;
+    height: auto;
+    overflow: visible;
+    justify-content: flex-start;
+    order: 2; /* 在標題後顯示 */
+  }
+
+  .projects-scroll-gallery {
+    display: block;
+    width: 100%;
+    padding: 0;
+  }
+
+  .horizontal-scroll-section .projects-scroll-gallery .project-card {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: var(--spacing-07);
+    aspect-ratio: 4/3;
+  }
+
+  /* 行動版最後一個卡片也不需要特殊處理 */
+  .horizontal-scroll-section .projects-scroll-gallery .project-card:last-child {
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+
+  .see-more-projects-container {
+    position: relative;
+    height: 32px;
+    align-items: center;
+    bottom: auto;
+    margin-top: var(--spacing-05);
+    order: 3; /* 在卡片後顯示 */
+  }
+
+  .scroll-indicator,
+  .scroll-prompt {
+    display: none;
+  }
+}

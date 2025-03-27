@@ -29,6 +29,7 @@ export const translations = {
     designerIntro: "一個有 3 年業界經驗的 UI/UX 設計師。",
     focusIntro: "專注於設計直觀且實用的產品，平衡用戶需求與商業目標。",
     selectedProjects: "精選專案",
+    seeMoreProjects: "查看更多專案",
 
     // 專案卡片
     projectName: "專案名稱",
@@ -48,8 +49,7 @@ export const translations = {
 
     //About
     name: "張瑄芸",
-    introduce1:
-      "我是一位擁有3年經驗的UI/UX設計師，專注於創造直覺的數位體驗。我曾在WEBA擔任UI設計師，參與開發行動優先的No-Code應用平台，幫助中小企業快速建立互動式網頁。",
+    introduce1: "我是一位擁有3年經驗的UI/UX設計師，專注於創造直覺的數位體驗。我曾在WEBA擔任UI設計師，參與開發行動優先的No-Code應用平台，幫助中小企業快速建立互動式網頁。",
     introduce2: "我的設計結合用戶需求與業務目標，致力於平衡用戶體驗與商業價值，創造既美觀又實用的解決方案。",
   },
 
@@ -64,6 +64,7 @@ export const translations = {
     designerIntro: "A UI/UX designer with 3 years of industry experience.",
     focusIntro: "Focus on designing intuitive and practical products, balancing user needs with business objectives.",
     selectedProjects: "Selected Projects",
+    seeMoreProjects: "See more projects",
 
     // Project card
     projectName: "Project Name",
@@ -85,7 +86,6 @@ export const translations = {
     name: "Milli Chang",
     introduce1:
       "I'm a UI/UX designer with 3 years of experience, focused on creating intuitive digital experiences. I worked as a UI designer at WEBA, developing a mobile-first No-Code platform that helps SMEs quickly build interactive webpages.",
-    introduce2:
-      "My design approach balances user needs with business objectives, creating solutions that are both visually appealing and effective.",
+    introduce2: "My design approach balances user needs with business objectives, creating solutions that are both visually appealing and effective.",
   },
 };

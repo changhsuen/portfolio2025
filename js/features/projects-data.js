@@ -16,7 +16,7 @@ export const projectsData = {
     cnywb: {
       title: "Chinese New Year without Borders",
       description: "第5屆臺灣創意之星設計獎 楊裕隆評審獎",
-      image: "./projects/img/cnywb-cover.gif",
+      image: "./projects/img/cnywb.gif",
       link: "projects/cnywb.html",
       tags: ["平面設計", "動態圖像"],
       showOnHomepage: true,
@@ -68,7 +68,7 @@ export const projectsData = {
     cnywb: {
       title: "Chinese New Year without Borders",
       description: "The 5th Taiwan Creative Star Design Award - Yang Yu-Long Jury Award",
-      image: "./projects/img/cnywb-cover.gif",
+      image: "./projects/img/cnywb.gif",
       link: "projects/cnywb.html",
       tags: ["Graphic Design", "Motion Graphic"],
       showOnHomepage: true,
