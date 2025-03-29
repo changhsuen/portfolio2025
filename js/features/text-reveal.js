@@ -246,7 +246,7 @@ export const TextRevealManager = {
             duration: 1,
             yPercent: 100,
             ease: "power3.out",
-            stagger: 0.25,
+            stagger: 0.1,
             delay: 0.2,
           });
         } else {

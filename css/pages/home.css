@@ -16,7 +16,7 @@
 /* 首頁文字動畫 */
 .reveal-text {
   visibility: hidden;
-  font-size: clamp(1.5rem, 5vw, 3rem);
+  font-size: clamp(1.75rem, 5vw, 3rem);
   font-weight: 500;
   line-height: 1.5;
   white-space: normal;
@@ -341,7 +341,7 @@ html[lang="zh-TW"] .horizontal-title {
   /* 首頁響應式調整 */
   .reveal-text {
     width: 100%;
-    font-size: clamp(1.25rem, 4vw, 2.5rem);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
   }
 
   /* 水平滾動區域調整為垂直佈局 */
@@ -391,12 +391,18 @@ html[lang="zh-TW"] .horizontal-title {
   }
 
   .see-more-projects-container {
-    position: relative;
+    position: relative !important; /* 強制使用相對定位 */
     height: 32px;
     align-items: center;
-    bottom: auto;
+    bottom: auto !important; /* 移除底部定位 */
     margin-top: var(--spacing-05);
     order: 3; /* 在卡片後顯示 */
+    z-index: 1; /* 確保在上層 */
+
+    /* 添加額外的空間，確保不會被卡片覆蓋 */
+    padding-top: 20px;
+    margin-bottom: 20px;
+    clear: both; /* 確保清除浮動 */
   }
 
   .scroll-indicator,

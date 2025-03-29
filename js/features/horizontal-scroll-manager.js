@@ -160,7 +160,12 @@ export const HorizontalScrollManager = {
         </a>
       `;
 
-      section.appendChild(seeMoreContainer);
+      // 在手機版時，將連結添加到水平滾動區域內部，而不是外部
+      if (this.isMobile) {
+        horizontalSection.appendChild(seeMoreContainer);
+      } else {
+        section.appendChild(seeMoreContainer);
+      }
     }
 
     // 保存引用
@@ -416,7 +421,9 @@ export const HorizontalScrollManager = {
     // 計算畫廊內容超出容器的寬度，加上右側padding確保最後對齊
     const scrollDistance = galleryWidth - containerWidth + rightPadding;
 
-    console.log(`畫廊寬度: ${galleryWidth}px, 容器寬度: ${containerWidth}px, 右側padding: ${rightPadding}px, 超出距離: ${scrollDistance}px`);
+    console.log(
+      `畫廊寬度: ${galleryWidth}px, 容器寬度: ${containerWidth}px, 右側padding: ${rightPadding}px, 超出距離: ${scrollDistance}px`
+    );
 
     // 如果畫廊寬度小於或等於容器寬度，不需要滾動
     if (galleryWidth <= containerWidth) {
