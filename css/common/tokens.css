@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+:root {
+  /* Colors */
+  --white: #ffffff;
+  --grey10: #f4f4f4;
+  --grey20: #e0e0e0;
+  --grey30: #c6c6c6;
+  --grey40: #a8a8a8;
+  --grey50: #8d8d8d;
+  --grey60: #6f6f6f;
+  --grey70: #525252;
+  --grey80: #424242;
+  --grey90: #262626;
+  --grey100: #161616;
+  --orange10: #dd6b20;
+  --orange20: #c45215;
+
+  --hover-grey10: #e8e8e8;
+  --hover-grey20: #d1d1d1;
+  --hover-grey30: #b5b5b5;
+  --hover-grey40: #999999;
+  --hover-grey50: #7a7a7a;
+  --hover-grey60: #5e5e5e;
+  --hover-grey70: #636363;
+  --hover-grey80: #474747;
+  --hover-grey90: #333333;
+  --hover-grey100: #292929;
+
+  /* Theme */
+  --background: var(--grey10);
+  --background-hover: var(--hover-grey10);
+  --background-active: var(--grey20);
+
+  --text-primary: var(--grey100);
+  --text-secondary: var(--grey60);
+  --text-on-color: var(--white);
+
+  --layer-01: var(--white);
+  --layer-hover-01: var(--hover-grey10);
+  --layer-active-01: var(--grey100);
+  --layer-brand: var(--orange10);
+
+  --button-primary: var(--orange10);
+  --button-primary-hover: var(--orange20);
+
+  --border: var(--grey30);
+
+  --icon-primary: var(--grey100);
+  --icon-on-color: var(--white);
+  --icon-secondary: var(--grey60);
+
+  /* Typography */
+  --font-tc: "Inter", sans-serif;
+  --font-en: "Inter", serif;
+  --font-mono: "Space Mono", serif;
+
+  /* Spacing */
+
+  --spacing-01: 0.125rem; /* 2px */
+  --spacing-02: 0.25rem; /* 4px */
+  --spacing-03: 0.5rem; /* 8px */
+  --spacing-04: 0.75rem; /* 12px */
+  --spacing-05: 1rem; /* 16px */
+  --spacing-06: 1.5rem; /* 24px */
+  --spacing-07: 2rem; /* 32px */
+  --spacing-08: 2.5rem; /* 40px */
+  --spacing-09: 3rem; /* 48px */
+  --spacing-10: 4rem; /* 64px */
+  --spacing-11: 5rem; /* 80px */
+  --spacing-12: 6rem; /* 96px */
+
+  /* radius */
+  --radius-01: 0.5rem;
+  --radius-02: 1rem;
+
+  /* Breakpoints */
+  --screen-sm: 640px; /* @media (min-width: 640px) */
+  --screen-md: 768px; /* @media (min-width: 768px) */
+  --screen-lg: 1024px; /* @media (min-width: 1024px) */
+  --screen-xl: 1280px; /* @media (min-width: 1280px) */
+  --screen-2xl: 1536px; /* @media (min-width: 1536px) */
+
+  /* Transitions */
+  --theme-transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --background: var(--grey100);
+  --background-hover: var(--hover-grey100);
+  --background-active: var(--grey90);
+
+  --text-primary: var(--grey10);
+  --text-secondary: var(--grey40);
+  --text-on-color: var(--grey100);
+
+  --layer-01: var(--grey90);
+  --layer-hover-01: var(--hover-grey90);
+  --layer-active-01: var(--grey10);
+  --layer-brand: var(--orange10);
+
+  --button-primary: var(--orange10);
+  --button-primary-hover: var(--orange20);
+
+  --border: var(--grey70);
+
+  --icon-primary: var(--grey10);
+  --icon-on-color: var(--white);
+  --icon-secondary: var(--grey40);
+}
+
+/* Apply transitions to elements */
+body,
+.nav,
+.nav-link,
+.theme-toggle,
+.lang-toggle,
+.project-card,
+.tag,
+.cursor__circle,
+button,
+input,
+select,
+.menu-toggle span {
+  transition: var(--theme-transition);
+}

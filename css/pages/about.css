@@ -1,0 +1,94 @@
+/* ==========================================================================
+   關於頁特定樣式 (ABOUT.CSS)
+   只用於關於頁 (about.html) 的特定樣式
+========================================================================== */
+
+/* 
+ * 關於頁面佈局
+ * ---------------------------------------------- */
+.about-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* 將頁面分成兩等份 */
+  gap: var(--spacing-09);
+  margin-top: var(--spacing-09);
+}
+
+/* 
+   * 圖片區域
+   * ---------------------------------------------- */
+.image-section {
+  display: flex;
+  justify-content: flex-start; /* 靠左對齊 */
+}
+
+.about-img {
+  width: 320px;
+  height: 320px;
+  border-radius: 8px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.about-img:hover {
+  transform: scale(1.02);
+}
+
+/* 
+   * 內容區域
+   * ---------------------------------------------- */
+.about-content {
+  max-width: 720px;
+}
+
+.about-content h1 {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: var(--spacing-05);
+}
+
+.about-description p {
+  margin-bottom: var(--spacing-05);
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  line-height: 1.6;
+  color: var(--text-primary);
+}
+
+/* 中文版樣式調整 */
+html[lang="zh-TW"] .about-content h1 {
+  font-family: var(--font-tc);
+}
+
+html[lang="zh-TW"] .about-description p {
+  font-family: var(--font-tc);
+  line-height: 1.8;
+}
+
+/* 
+   * 響應式調整 - 僅關於頁
+   * ---------------------------------------------- */
+@media (max-width: 768px) {
+  .about-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-07);
+  }
+
+  .image-section {
+    justify-content: center;
+    margin-bottom: var(--spacing-05);
+  }
+
+  .about-img {
+    width: 160px;
+    height: 160px;
+  }
+
+  .about-content h1 {
+    font-size: 1.75rem;
+    text-align: center;
+  }
+
+  .about-description p {
+    font-size: 1rem;
+  }
+}
