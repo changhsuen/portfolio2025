@@ -218,6 +218,7 @@ export const ProjectRenderer = {
         saas: "SaaS",
         "graphic-design": "平面設計",
         "motion-graphic": "動態圖像",
+        packaging: "包裝設計",
       },
       en: {
         "ui-design": "UI Design",
@@ -229,6 +230,7 @@ export const ProjectRenderer = {
         saas: "SaaS",
         "graphic-design": "Graphic Design",
         "motion-graphic": "Motion Graphic",
+        packaging: "Packaging",
       },
     };
   },

@@ -8,6 +8,7 @@ import { TextRevealManager } from "./features/text-reveal.js";
 import { ProjectFilterManager } from "./features/project-filter.js";
 import { ProjectRenderer } from "./features/project-renderer.js";
 import { HorizontalScrollManager } from "./features/horizontal-scroll-manager.js"; // 導入橫向滾動管理器
+import { CardAnimationManager } from "./features/cards-animation.js";
 
 // 設置一個全域變數來追蹤初始化狀態
 window.siteInitialized = window.siteInitialized || false;
@@ -63,6 +64,11 @@ document.addEventListener("DOMContentLoaded", () => {
     toggle.dataset.currentLang = savedLang;
     toggle.textContent = savedLang === "en" ? "中" : "EN";
   });
+
+  // 初始化卡片動畫管理器 - 確保在文字動畫後執行
+  setTimeout(() => {
+    CardAnimationManager.init();
+  }, 500);
 
   // 初始化基本功能
   ThemeManager.init();

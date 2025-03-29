@@ -236,6 +236,7 @@ export const HorizontalScrollManager = {
         SaaS: "saas",
         平面設計: "graphic-design",
         動態圖像: "motion-graphic",
+        包裝設計: "packaging",
       },
       en: {
         "UI Design": "ui-design",
@@ -247,6 +248,7 @@ export const HorizontalScrollManager = {
         SaaS: "saas",
         "Graphic Design": "graphic-design",
         "Motion Graphic": "motion-graphic",
+        Packaging: "packaging",
       },
     };
 

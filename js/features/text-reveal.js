@@ -1,371 +1,267 @@
-// text-reveal.js
+// 改進的 text-reveal.js 版本 - 支援響應式設計的中文逐行顯示
+
 export const TextRevealManager = {
-  initialized: false, // 標記來確保只初始化一次
-  cardsAnimated: false, // 新增標記來追蹤卡片是否已經有動畫
+  initialized: false,
+  cardsAnimated: false,
 
   init() {
-    // 避免重複完整初始化
-    if (this.initialized) {
-      console.log("TextRevealManager 已經初始化，跳過");
-      return;
-    }
-
+    if (this.initialized) return;
     console.log("TextRevealManager 開始初始化");
 
-    // 將實例暴露到全局
     window.TextRevealManager = this;
-
-    // 標記為已初始化
     this.initialized = true;
 
-    // 先直接設置標題可見，避免閃爍
-    this.ensureTitleVisible();
-
-    // 檢查卡片是否已經可見
-    this.checkCardsVisibility();
-
-    // 確保頁面完全加載後再應用動畫
+    // 頁面載入後執行
     if (document.readyState === "complete") {
-      this.setupPageAnimations();
+      this.setupTextReveal();
     } else {
-      // 使用一次性事件監聽器，確保只觸發一次
-      window.addEventListener(
-        "load",
-        () => {
-          this.setupPageAnimations();
-        },
-        { once: true }
-      );
+      window.addEventListener("load", () => this.setupTextReveal());
     }
 
-    // 監聽語言切換事件
+    // 語言更換事件
     document.addEventListener("languageChanged", (e) => {
       console.log("語言變更，重新設置動畫");
-      // 語言變更後，重置動畫標記並重新應用動畫
-      this.cardsAnimated = false;
-      this.refresh();
+      // 延遲執行，確保DOM已更新
+      setTimeout(() => {
+        // 清除舊的動畫結構
+        this.clearTextAnimations();
+        // 然後重新設置
+        this.setupTextReveal();
+      }, 300);
     });
 
-    console.log("TextRevealManager 初始化完成");
+    // 監聽視窗大小變化
+    window.addEventListener(
+      "resize",
+      this.debounce(() => {
+        console.log("視窗大小變化，重新設置動畫");
+        this.clearTextAnimations();
+        this.setupTextReveal();
+      }, 250)
+    );
   },
 
-  // 檢查卡片的可見性狀態
-  checkCardsVisibility() {
-    const projectCards = document.querySelectorAll(".project-card");
-    if (projectCards.length === 0) return;
+  // 防抖函數，避免resize事件頻繁觸發
+  debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  },
 
-    // 檢查第一張卡片是否已經可見
-    const firstCard = projectCards[0];
-    const style = window.getComputedStyle(firstCard);
+  // 清除所有文字動畫相關結構
+  clearTextAnimations() {
+    const elements = document.querySelectorAll(".reveal-text");
+    elements.forEach((element) => {
+      // 獲取原始文字
+      const key = element.dataset.langKey;
+      const lang = document.documentElement.getAttribute("lang") || "en";
+      const originalText = window.translations?.[lang]?.[key] || element.textContent;
 
-    // 如果卡片已經可見，標記為已動畫
-    if (style.opacity > 0.5 && style.transform.includes("matrix") && !style.transform.includes("translate3d(0px, 20px, 0px)")) {
-      console.log("卡片已經可見，標記為已動畫");
-      this.cardsAnimated = true;
+      // 重置元素內容
+      element.innerHTML = originalText;
+
+      // 確保可見性
+      element.style.visibility = "visible";
+      element.style.opacity = "1";
+    });
+  },
+
+  setupTextReveal() {
+    // 獲取當前語言
+    const currentLang = document.documentElement.getAttribute("lang") || "en";
+    const isChinese = currentLang === "zh-TW";
+
+    // 處理文字分割 - 中英文使用不同邏輯
+    this.processElements(isChinese);
+
+    // 應用動畫
+    this.applyAnimations();
+  },
+
+  // 根據螢幕寬度獲取每行字符數
+  getCharsPerLine() {
+    const windowWidth = window.innerWidth;
+
+    // 響應式調整每行字符數
+    if (windowWidth <= 480) {
+      return 14; // 手機豎屏
+    } else if (windowWidth <= 768) {
+      return 14; // 平板或手機橫屏
+    } else if (windowWidth <= 1024) {
+      return 18; // 小型桌面螢幕
+    } else {
+      return 21; // 大型桌面螢幕
     }
   },
 
-  // 確保標題可見，這是一個緊急措施
-  ensureTitleVisible() {
-    const sectionTitle = document.querySelector(".section-title");
-    if (sectionTitle) {
-      console.log("確保標題可見");
-      // 確保文字是可見的，但保持一些透明度以便後續動畫
-      sectionTitle.style.visibility = "visible";
-      sectionTitle.style.opacity = "0.1";
+  // 處理頁面元素
+  processElements(isChinese) {
+    const elements = document.querySelectorAll(".reveal-text");
+
+    elements.forEach((element) => {
+      // 保存原始文字
+      const originalText = element.textContent;
+      element.dataset.splitText = originalText;
+
+      // 根據語言選擇不同的處理方式
+      if (isChinese) {
+        this.processChineseText(element, originalText);
+      } else {
+        this.processEnglishText(element, originalText);
+      }
+    });
+  },
+
+  // 處理中文文字 - 根據螢幕寬度動態調整每行字符數
+  processChineseText(element, text) {
+    // 清除現有內容
+    element.innerHTML = "";
+
+    // 獲取適合當前螢幕的字符數
+    const maxCharsPerLine = this.getCharsPerLine();
+    console.log(`當前每行字符數: ${maxCharsPerLine}`);
+
+    // 分割文本為適當長度的行
+    const lines = [];
+    for (let i = 0; i < text.length; i += maxCharsPerLine) {
+      // 切出一段文字作為一行
+      const line = text.substr(i, maxCharsPerLine);
+      lines.push(line);
+    }
+
+    // 為每一行創建DOM結構
+    lines.forEach((line) => {
+      const lineElement = document.createElement("span");
+      lineElement.className = "line";
+
+      const wordsElement = document.createElement("span");
+      wordsElement.className = "words";
+
+      // 將每個字符包裝為一個單詞
+      for (let i = 0; i < line.length; i++) {
+        const char = line[i];
+        const wordElement = document.createElement("span");
+        wordElement.className = "word";
+        wordElement.textContent = char;
+        wordsElement.appendChild(wordElement);
+      }
+
+      lineElement.appendChild(wordsElement);
+      element.appendChild(lineElement);
+    });
+
+    // 添加設備類型標記，方便CSS定位
+    const deviceType = this.getDeviceType();
+    element.setAttribute("data-device", deviceType);
+  },
+
+  // 獲取當前設備類型
+  getDeviceType() {
+    const windowWidth = window.innerWidth;
+
+    if (windowWidth <= 480) {
+      return "mobile";
+    } else if (windowWidth <= 768) {
+      return "tablet";
+    } else {
+      return "desktop";
     }
   },
 
-  setupPageAnimations() {
-    console.log("設置頁面動畫");
+  // 處理英文文字 - 按空格分割為單詞，然後分行
+  processEnglishText(element, text) {
+    // 分割為單詞
+    const words = text.split(/\s+/);
+    const processedWords = words.map((word) => {
+      return word
+        .split("-")
+        .map((part) => `<span class="word">${part}</span>`)
+        .join('<span class="hyphen">-</span>');
+    });
 
-    // 檢測頁面類型並應用相應的動畫
-    if (document.querySelector(".about-wrapper")) {
-      this.setupAboutPage();
-    } else if (document.querySelector(".header")) {
-      // 首頁設置
-      this.setupHomePage();
-    } else if (document.querySelector(".projects-header")) {
-      this.setupProjectsPage();
+    // 臨時設置，用於計算行分配
+    element.innerHTML = processedWords.join('<span class="whitespace"> </span>');
+
+    // 計算行分配
+    const lineElements = [];
+    let currentLine = [];
+    let lastTop = null;
+
+    element.querySelectorAll(".word, .whitespace, .hyphen").forEach((wordElem) => {
+      const top = wordElem.offsetTop;
+
+      if (lastTop !== null && top !== lastTop) {
+        // 新的一行
+        if (currentLine.length > 0) {
+          lineElements.push(currentLine);
+          currentLine = [];
+        }
+      }
+
+      currentLine.push(wordElem.outerHTML);
+      lastTop = top;
+    });
+
+    // 添加最後一行
+    if (currentLine.length > 0) {
+      lineElements.push(currentLine);
     }
+
+    // 重建HTML
+    element.innerHTML = lineElements
+      .map((line) => {
+        return `<span class="line"><span class="words">${line.join("")}</span></span>`;
+      })
+      .join("");
+
+    // 添加設備類型標記
+    const deviceType = this.getDeviceType();
+    element.setAttribute("data-device", deviceType);
   },
 
-  // 重新整理並重新應用動畫
-  refresh() {
-    console.log("刷新動畫");
+  // 應用動畫效果
+  applyAnimations() {
+    const revealElements = document.querySelectorAll(".reveal-text");
 
-    // 簡化重置過程，保持實例初始化標記
-    setTimeout(() => {
-      this.setupPageAnimations();
-    }, 100);
-  },
-
-  setupHomePage() {
-    console.log("設置首頁動畫");
-
-    // 獲取首頁元素
-    const headerLines = document.querySelectorAll(".header .line span");
-    const sectionTitle = document.querySelector(".section-title");
-
-    // 設置標題行動畫
-    if (headerLines.length) {
-      headerLines.forEach((line, index) => {
-        // 設置初始狀態
-        gsap.set(line, {
-          y: 20,
-          opacity: 0,
-          visibility: "visible",
-        });
-
-        // 添加動畫
-        gsap.to(line, {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power2.out",
-          delay: 0.1 + index * 0.15,
-        });
+    // 確保 GSAP 已正確載入
+    if (typeof gsap !== "undefined") {
+      // 先確保所有元素可見
+      revealElements.forEach((element) => {
+        gsap.set(element, { autoAlpha: 1 });
       });
-    }
 
-    // 設置章節標題動畫
-    if (sectionTitle) {
-      // 確保標題有內容
-      const savedLang = localStorage.getItem("lang") || "en";
-      const titleKey = "selectedProjects";
-      const titleText = savedLang === "en" ? "Selected Projects" : "精選專案";
-      sectionTitle.textContent = titleText;
+      // 為每個元素應用動畫
+      revealElements.forEach((element) => {
+        const lines = element.querySelectorAll(".words");
 
-      // 設置並執行動畫
-      gsap.set(sectionTitle, {
-        y: 20,
-        opacity: 0,
-        visibility: "visible",
-      });
-
-      gsap.to(sectionTitle, {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
-        delay: 0.8, // 延後於標題行之後
-        onComplete: () => {
-          // 設置卡片動畫，但只有在卡片尚未動畫的情況下
-          if (!this.cardsAnimated) {
-            setTimeout(() => {
-              this.setupHomepageProjectCards();
-            }, 100);
-          }
-        },
+        if (lines.length > 0) {
+          // 應用逐行顯示動畫
+          gsap.from(lines, {
+            duration: 1,
+            yPercent: 100,
+            ease: "power3.out",
+            stagger: 0.25,
+            delay: 0.2,
+          });
+        } else {
+          // 如果沒有行元素，確保文字可見
+          element.style.visibility = "visible";
+          element.style.opacity = "1";
+        }
       });
     } else {
-      // 如果沒有找到標題，也要確保卡片顯示，但只有在卡片尚未動畫的情況下
-      if (!this.cardsAnimated) {
-        setTimeout(() => {
-          this.setupHomepageProjectCards();
-        }, 500);
-      }
-    }
-  },
-
-  // 專門處理首頁的卡片動畫
-  setupHomepageProjectCards() {
-    // 只有在卡片尚未動畫的情況下處理
-    if (this.cardsAnimated) {
-      console.log("卡片已經有動畫，跳過");
-      return;
-    }
-
-    const projectCards = document.querySelectorAll(".project-card");
-
-    // 確保找到卡片
-    if (projectCards.length === 0) {
-      console.log("沒有找到卡片");
-      return;
-    }
-
-    console.log(`找到 ${projectCards.length} 張卡片，開始設置動畫`);
-
-    // 為所有卡片設置動畫
-    projectCards.forEach((card, index) => {
-      // 檢查卡片是否已經可見
-      const style = window.getComputedStyle(card);
-      if (style.opacity > 0.5) {
-        console.log(`卡片 ${index} 已經可見，跳過`);
-        return;
-      }
-
-      // 設置初始狀態
-      gsap.set(card, {
-        y: 20,
-        opacity: 0,
-        visibility: "visible",
+      // 如果GSAP未載入，至少確保文字可見
+      revealElements.forEach((element) => {
+        element.style.visibility = "visible";
+        element.style.opacity = "1";
       });
-
-      // 添加動畫
-      gsap.to(card, {
-        y: 0,
-        opacity: 1,
-        duration: 0.7,
-        ease: "power2.out",
-        delay: 0.1 + index * 0.1, // 每張卡片間隔0.1秒
-      });
-    });
-
-    // 標記卡片已有動畫
-    this.cardsAnimated = true;
-  },
-
-  setupAboutPage() {
-    // 獲取 about 頁面元素
-    const aboutTitle = document.querySelector(".about-content h1");
-    const aboutParagraphs = document.querySelectorAll(".about-description p");
-    const aboutImage = document.querySelector(".about-img");
-
-    // 設置標題動畫
-    if (aboutTitle) {
-      gsap.set(aboutTitle, {
-        y: 20,
-        opacity: 0,
-        visibility: "visible",
-      });
-
-      gsap.to(aboutTitle, {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
-        delay: 0.1,
-      });
+      console.error("GSAP 未正確載入");
     }
-
-    // 設置圖片動畫
-    if (aboutImage) {
-      gsap.set(aboutImage, {
-        y: 20,
-        opacity: 0,
-        visibility: "visible",
-      });
-
-      gsap.to(aboutImage, {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        ease: "power2.out",
-        delay: 0.3,
-      });
-    }
-
-    // 設置段落動畫
-    if (aboutParagraphs.length) {
-      aboutParagraphs.forEach((paragraph, index) => {
-        gsap.set(paragraph, {
-          y: 20,
-          opacity: 0,
-          visibility: "visible",
-        });
-
-        gsap.to(paragraph, {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          ease: "power2.out",
-          delay: 0.5 + index * 0.15,
-        });
-      });
-    }
-  },
-
-  setupProjectsPage() {
-    // 檢查卡片是否已經有動畫
-    if (this.cardsAnimated) {
-      console.log("專案頁卡片已經有動畫，跳過");
-      return;
-    }
-
-    // 獲取專案頁面元素
-    const filterTags = document.querySelector(".filter-tags");
-
-    // 設置過濾標籤動畫
-    if (filterTags) {
-      gsap.set(filterTags, {
-        y: 15,
-        opacity: 0,
-        visibility: "visible",
-      });
-
-      gsap.to(filterTags, {
-        y: 0,
-        opacity: 1,
-        duration: 0.5,
-        ease: "power2.out",
-        delay: 0.1,
-        onComplete: () => {
-          // 設置卡片動畫
-          this.setupProjectPageCards();
-        },
-      });
-    } else {
-      // 如果沒有找到過濾標籤，也要確保卡片顯示
-      this.setupProjectPageCards();
-    }
-  },
-
-  // 專門處理專案頁的卡片動畫
-  setupProjectPageCards() {
-    // 檢查卡片是否已經有動畫
-    if (this.cardsAnimated) {
-      console.log("專案頁卡片已經有動畫，跳過");
-      return;
-    }
-
-    const projectCards = document.querySelectorAll(".project-card");
-
-    if (projectCards.length === 0) {
-      console.log("沒有找到專案卡片");
-      return;
-    }
-
-    console.log(`找到 ${projectCards.length} 張專案卡片，開始設置動畫`);
-
-    // 為所有卡片設置動畫
-    projectCards.forEach((card, index) => {
-      // 檢查卡片是否已經可見
-      const style = window.getComputedStyle(card);
-      if (style.opacity > 0.5) {
-        console.log(`卡片 ${index} 已經可見，跳過`);
-        return;
-      }
-
-      gsap.set(card, {
-        y: 20,
-        opacity: 0,
-        visibility: "visible",
-        display: "", // 確保卡片是顯示的
-      });
-
-      gsap.to(card, {
-        y: 0,
-        opacity: 1,
-        duration: 0.5,
-        ease: "power2.out",
-        delay: 0.1 + index * 0.08, // 每張卡片間隔0.08秒
-      });
-    });
-
-    // 標記卡片已有動畫
-    this.cardsAnimated = true;
-  },
-
-  // 獲取當前頁面類型
-  getCurrentPageType() {
-    if (document.querySelector(".about-wrapper")) {
-      return "about";
-    } else if (document.querySelector(".header")) {
-      return "home";
-    } else if (document.querySelector(".projects-header")) {
-      return "projects";
-    }
-    return "unknown";
   },
 };

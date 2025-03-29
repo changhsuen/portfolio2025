@@ -413,83 +413,26 @@
    Line Animation Components (Homepage)
 ========================================================================== */
 
-.line {
-  width: 70%;
-  position: relative;
-  overflow: hidden; /* 重要：設為 hidden 創建遮罩效果 */
-  margin-bottom: var(--spacing-05); /* 增加行間距以便有足夠空間顯示 */
-  height: auto; /* 自適應高度 */
-}
-
-.line span {
-  display: block;
-  font-size: clamp(1.5rem, 5vw, 3rem);
-  font-weight: 500;
-  line-height: 1.2;
-  white-space: normal;
-  width: 100%;
-}
-
-/* 第三行的樣式 */
-/* .line:nth-child(3) span {
-  margin-top: var(--spacing-03);
-  font-size: clamp(1rem, 3vw, 1.75rem);
-  color: var(--text-secondary);
-} */
-
-/* 文字顯示動畫基本樣式 */
 .reveal-text {
   visibility: hidden;
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: normal;
+  width: 70%;
 }
 
-/* 只為 reveal-text 內的 line 設置特定動畫屬性 */
-.reveal-text .line {
+.line {
+  position: relative;
   overflow: hidden;
   display: flex;
 }
 
-.reveal-text .words {
-  display: inline-block;
-  will-change: transform;
-}
-
-/* 確保不破壞現有樣式 */
-.reveal-text .line,
-.reveal-text .words,
-.reveal-text .word,
-.reveal-text .whitespace,
-.reveal-text .hyphen {
-  margin: 0;
-  padding: 0;
-  line-height: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  color: inherit;
-  font-family: inherit;
-}
-
-/* 首頁標題動畫特殊處理 */
-.homepage-heading {
-  width: 70%; /* 保持原有寬度 */
-  position: relative;
-  overflow: hidden; /* 隱藏超出部分用於動畫 */
-  margin-bottom: var(--spacing-03);
-}
-
-.homepage-heading span {
-  display: block;
-  font-size: clamp(1.5rem, 5vw, 3rem);
-  line-height: 1.2;
-  white-space: normal;
+/* 中文樣式 */
+html[lang="zh-TW"] .reveal-text {
+  font-family: var(--font-tc);
+  line-height: 1.5;
   width: 100%;
-  /* 移除動畫相關屬性，由 GSAP 處理 */
-}
-
-/* 保持第三行特殊樣式 */
-.header .homepage-heading:nth-child(3) span {
-  margin-top: var(--spacing-03);
-  font-size: clamp(1rem, 3vw, 1.75rem);
-  color: var(--text-secondary);
 }
 
 /* ==========================================================================
