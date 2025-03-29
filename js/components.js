@@ -79,10 +79,7 @@ function createFooter() {
     <footer class="enhanced-footer">
   <div class="footer-content">
     <div class="footer-main">
-      <div class="footer-brand">
-        <div class="logo-icon footer-logo" aria-label="Milli"></div>
-        <p class="footer-tagline" data-lang-key="footerTagline">Crafting intuitive digital experiences with purpose</p>
-      </div>
+      
       
       <div class="footer-sections">
         <div class="footer-section">
@@ -90,15 +87,11 @@ function createFooter() {
           <ul class="footer-links">
             <li><a href="mailto:changhsuen@gmail.com" class="footer-link">changhsuen@gmail.com</a></li>
             <li><a href="tel:+886938193135" class="footer-link">+886 938 193 135</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-section">
-          <h3 class="footer-heading" data-lang-key="connect">Connect</h3>
-          <ul class="footer-links">
             <li><a href="https://linkedin.com/" target="_blank" class="footer-link">LinkedIn</a></li>
           </ul>
         </div>
+        
+     
         
         <div class="footer-section">
           <h3 class="footer-heading" data-lang-key="links">Links</h3>
@@ -114,9 +107,6 @@ function createFooter() {
     <div class="footer-bottom">
       <div class="copyright">
         <p>© 2025 Milli Chang. <span data-lang-key="allRightsReserved">All Rights Reserved.</span></p>
-      </div>
-      <div class="footer-credit">
-        <p><span data-lang-key="designedBy">Designed & Built by</span> Milli Chang</p>
       </div>
     </div>
   </div>
