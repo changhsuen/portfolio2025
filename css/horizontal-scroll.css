@@ -62,7 +62,7 @@
 
 /* 最後一個卡片樣式 - 確保有足夠的右側空間 */
 .horizontal-scroll-section .projects-scroll-gallery .project-card:last-child {
-  margin-right: var(--spacing-09); /* 與容器右側padding相同，確保最後對齊 */
+  margin-right: var(--spacing-12); /* 與容器右側padding相同，確保最後對齊 */
 }
 
 /* 圖片容器與卡片同寬高 */

@@ -8,7 +8,8 @@
   width: 100%;
   background-color: var(--background);
   z-index: 100;
-  transition: transform 0.3s ease, background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+  transition: transform 0.3s ease, background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
     box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, background-color; /* 提高性能 */
 }
@@ -415,8 +416,9 @@
 .line {
   width: 70%;
   position: relative;
-  overflow: visible;
-  margin-bottom: var(--spacing-03);
+  overflow: hidden; /* 重要：設為 hidden 創建遮罩效果 */
+  margin-bottom: var(--spacing-05); /* 增加行間距以便有足夠空間顯示 */
+  height: auto; /* 自適應高度 */
 }
 
 .line span {
@@ -429,11 +431,11 @@
 }
 
 /* 第三行的樣式 */
-.line:nth-child(2) span {
+/* .line:nth-child(3) span {
   margin-top: var(--spacing-03);
   font-size: clamp(1rem, 3vw, 1.75rem);
   color: var(--text-secondary);
-}
+} */
 
 /* 文字顯示動畫基本樣式 */
 .reveal-text {
@@ -561,7 +563,8 @@ textarea,
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1), margin 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    margin 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: var(--icon-on-color);
   background-image: url("../assets/arrow.svg");
   background-repeat: no-repeat;
@@ -594,49 +597,28 @@ textarea,
 }
 
 /* Footer */
-/* Enhanced Footer Styles */
 .enhanced-footer {
-  padding-top: var(--spacing-11);
-  padding-bottom: var(--spacing-07);
+  padding-top: var(--spacing-07);
   width: 100%;
-  border-top: 1px solid var(--border);
+  /* border-top: 1px solid var(--border); */
   margin-top: var(--spacing-11);
 }
 
 .footer-content {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-09);
 }
 
 .footer-main {
   display: flex;
-  justify-content: space-between;
-  gap: var(--spacing-07);
-}
-
-.footer-brand {
-  flex: 1;
-}
-
-.footer-logo {
-  height: 40px;
-  width: auto;
-  margin-bottom: var(--spacing-05);
-}
-
-.footer-tagline {
-  font-family: var(--font-mono);
-  color: var(--text-secondary);
-  max-width: 300px;
-  line-height: 1.5;
+  padding-bottom: var(--spacing-07);
 }
 
 .footer-sections {
   display: flex;
-  gap: var(--spacing-07);
+  gap: var(--spacing-09);
   flex: 2;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .footer-section {
@@ -676,7 +658,6 @@ textarea,
 
 .footer-bottom {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   padding-top: var(--spacing-05);
   border-top: 1px solid var(--border);
