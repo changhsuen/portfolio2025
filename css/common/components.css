@@ -63,12 +63,12 @@
   width: auto;
   aspect-ratio: 92/50;
   background-color: var(--icon-primary);
-  mask-image: url(/assets/Logo.svg);
+  mask-image: url(../../assets/Logo.svg);
   mask-position: center;
   mask-repeat: no-repeat;
   mask-size: contain;
   transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  -webkit-mask-image: url(/assets/Logo.svg);
+  -webkit-mask-image: url(../../assets/Logo.svg);
   -webkit-mask-position: center;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-size: contain;
