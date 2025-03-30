@@ -61,7 +61,7 @@ export const translations = {
 
     // Home content
     intro:
-      "I'm Milli, a passionate UI/UX designer creating intuitive digital experiences in Taiwan since 2021. Currently specializing in crafting user-centered design systems that bridge aesthetics and functionality.",
+      "I'm Milli, a passionate UI/UX designer creating intuitive digital experiences since 2021. Currently specializing in crafting user-centered design systems that bridge aesthetics and functionality.",
     selectedProjects: "Selected Projects",
     seeMoreProjects: "See more projects",
 

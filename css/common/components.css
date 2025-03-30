@@ -8,8 +8,6 @@
  * 1. 導航相關組件
  * 2. 專案卡片與標籤
  *    - 2.1 基本卡片樣式
- *    - 2.2 首頁水平滾動卡片變體
- *    - 2.3 專案列表頁卡片變體
  * 3. 標籤與過濾系統
  * 4. 自定義游標
  * 5. 頁尾
@@ -343,7 +341,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 101%;
+  width: 100%; /* 修改為100%，確保不會超出容器 */
   height: 100%;
   object-fit: cover;
   transition: all 0.6s cubic-bezier(0.17, 0.35, 0.01, 1);
@@ -400,94 +398,6 @@
   grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
 }
 
-/* 2.2 首頁水平滾動卡片變體 */
-.horizontal-scroll-section .projects-scroll-gallery .project-card {
-  width: 40vw;
-  height: auto;
-  margin-right: var(--spacing-09);
-  border-radius: var(--radius-01);
-  position: relative;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: block;
-  aspect-ratio: 4/3;
-  will-change: transform;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.horizontal-scroll-section .projects-scroll-gallery .project-card:last-child {
-  margin-right: var(--spacing-12);
-}
-
-.horizontal-scroll-section .projects-scroll-gallery .project-image {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  border-radius: var(--radius-01);
-  padding-top: 0; /* 覆蓋基本樣式 */
-}
-
-.horizontal-scroll-section .projects-scroll-gallery .project-image img {
-  position: absolute;
-  top: 0;
-  left: -10%; /* 向左偏移，讓圖片居中顯示 */
-  width: 120%; /* 加寬，為視差效果提供更多空間 */
-  height: 100%;
-  object-fit: cover;
-  will-change: transform; /* 提示瀏覽器這個元素會有變換 */
-}
-
-.horizontal-scroll-section .projects-scroll-gallery .project-info {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: var(--spacing-05);
-  z-index: 2;
-}
-
-.horizontal-scroll-section .projects-scroll-gallery .project-title {
-  font-size: 1.125rem;
-  font-weight: 500;
-  margin-bottom: var(--spacing-01);
-  color: #fff;
-}
-
-.horizontal-scroll-section .projects-scroll-gallery .project-description {
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 0;
-  font-size: 1rem;
-  display: none;
-}
-
-.horizontal-scroll-section .projects-scroll-gallery .project-tags {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  padding: var(--spacing-05);
-  z-index: 2;
-  display: flex;
-  gap: var(--spacing-03);
-  flex-wrap: wrap;
-}
-
-/* 2.3 專案列表頁卡片變體 */
-/* 專案列表頁的卡片標題樣式 */
-.projects-header ~ .project-grid .project-title {
-  font-size: 1.125rem; /* 確保與原始大小一致 */
-  font-weight: 400;
-  margin-bottom: var(--spacing-01);
-}
-
-/* 專案列表頁的卡片圖片樣式 */
-.projects-header ~ .project-grid .project-image {
-  padding-top: 75%; /* 保持原始比例 */
-}
-
 /* 隱藏狀態 - 用於過濾功能 */
 .project-card.hidden-project {
   display: none;
@@ -513,7 +423,6 @@
   will-change: transform, opacity;
 }
 
-/* 過濾標籤按鈕 */
 .filter-tag {
   background-color: var(--layer-01);
   color: var(--text-primary);
@@ -558,19 +467,6 @@ html[lang="zh-TW"] .filter-tag {
 
 .see-more-projects:hover {
   color: var(--text-primary);
-}
-
-/* 首頁特殊位置的更多專案連結 */
-.horizontal-scroll-section .see-more-projects-container {
-  position: absolute;
-  bottom: var(--spacing-11);
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  font-size: 1rem;
-  width: auto;
-  z-index: 10;
 }
 
 /* ==========================================================================
@@ -780,11 +676,6 @@ textarea,
   .projects-header + .project-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  /* 首頁水平滾動卡片 - 中等螢幕 */
-  .horizontal-scroll-section .projects-scroll-gallery .project-card {
-    width: 45vw;
-  }
 }
 
 @media (max-width: 768px) {
@@ -901,66 +792,6 @@ textarea,
   .filter-tag {
     height: 2rem;
     font-size: 0.875rem;
-  }
-
-  /* 水平滾動區域調整為垂直佈局 */
-  .horizontal-scroll-section {
-    height: auto;
-    overflow: visible;
-    padding-left: var(--spacing-05);
-    padding-right: var(--spacing-05);
-    padding-top: 60px; /* 為標題預留空間 */
-    display: flex; /* 使用flexbox布局 */
-    flex-direction: column; /* 垂直排列 */
-  }
-
-  .horizontal-title {
-    position: relative; /* 改為相對定位 */
-    top: 0;
-    left: 0;
-    margin-bottom: var(--spacing-07);
-    order: 1; /* 設置flexbox順序 */
-  }
-
-  .scroll-container {
-    position: relative;
-    height: auto;
-    overflow: visible;
-    justify-content: flex-start;
-    order: 2; /* 在標題後顯示 */
-  }
-
-  .projects-scroll-gallery {
-    display: block;
-    width: 100%;
-    padding: 0;
-  }
-
-  .horizontal-scroll-section .projects-scroll-gallery .project-card {
-    width: 100%;
-    margin-right: 0;
-    margin-bottom: var(--spacing-07);
-    aspect-ratio: 4/3;
-  }
-
-  /* 行動版最後一個卡片也不需要特殊處理 */
-  .horizontal-scroll-section .projects-scroll-gallery .project-card:last-child {
-    margin-right: 0;
-    margin-bottom: 0;
-  }
-
-  .see-more-projects-container {
-    position: relative;
-    height: 32px;
-    align-items: center;
-    bottom: auto;
-    margin-top: var(--spacing-05);
-    order: 3; /* 在卡片後顯示 */
-  }
-
-  .scroll-indicator,
-  .scroll-prompt {
-    display: none;
   }
 
   /* 頁尾響應式調整 */

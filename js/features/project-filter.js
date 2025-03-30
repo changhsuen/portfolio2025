@@ -21,7 +21,18 @@ export const ProjectFilterManager = {
     console.log("初始化 ProjectFilterManager");
 
     // 標籤的 key 值（用於篩選和翻譯）
-    this.tagKeys = ["all", "ui-design", "ux-research", "design-system", "iconography", "prototyping", "brand-identity", "saas", "graphic-design", "motion-graphic"];
+    this.tagKeys = [
+      "all",
+      "ui-design",
+      "ux-research",
+      "design-system",
+      "iconography",
+      "prototyping",
+      "brand-identity",
+      "saas",
+      "graphic-design",
+      "motion-graphic",
+    ];
 
     // 翻譯到卡片標籤的映射關係
     this.tagMappings = {
@@ -179,81 +190,107 @@ export const ProjectFilterManager = {
       gsap.killTweensOf(project);
     });
 
-    // 使用 requestAnimationFrame 確保動畫流暢
-    requestAnimationFrame(() => {
-      // 首先標記所有需要隱藏的專案
+    // 流動式佈局動畫
+    if (useAnimation) {
+      // 首先標記所有卡片，確定哪些需要顯示，哪些需要隱藏
       projects.forEach((project) => {
-        if (selectedTag === "all") {
-          // 顯示所有專案
-          project.classList.remove("hidden-project");
-        } else {
-          // 檢查是否匹配所選標籤
-          const hasMatchingTag = project.querySelector(`.tag[data-filter="${selectedTag}"]`) !== null;
+        const matchesFilter =
+          selectedTag === "all" || project.querySelector(`.tag[data-filter="${selectedTag}"]`) !== null;
+        project.setAttribute("data-visible", matchesFilter ? "true" : "false");
+      });
 
-          if (!hasMatchingTag) {
-            // 標記不匹配的專案
-            project.classList.add("hidden-project");
-          } else {
-            // 標記匹配的專案
-            project.classList.remove("hidden-project");
-          }
+      // 創建 GSAP 時間軸
+      const tl = gsap.timeline({
+        defaults: {
+          duration: 0.4,
+          ease: "power2.inOut",
+        },
+        onComplete: () => {
+          // 動畫完成後，確保不匹配的卡片確實被隱藏
+          projects.forEach((project) => {
+            if (project.getAttribute("data-visible") === "false") {
+              project.style.display = "none";
+            }
+          });
+        },
+      });
+
+      // 第一步：縮小並淡出不需要顯示的卡片
+      const cardsToHide = Array.from(projects).filter((card) => card.getAttribute("data-visible") === "false");
+      tl.to(
+        cardsToHide,
+        {
+          scale: 0.8,
+          opacity: 0,
+          stagger: 0.03,
+        },
+        0
+      );
+
+      // 第二步：顯示並放大需要顯示的卡片
+      const cardsToShow = Array.from(projects).filter((card) => card.getAttribute("data-visible") === "true");
+      cardsToShow.forEach((card) => {
+        // 確保卡片可見
+        card.style.display = "";
+
+        // 檢查卡片當前狀態
+        const currentOpacity = parseFloat(window.getComputedStyle(card).opacity);
+        const currentScale = parseFloat(
+          window.getComputedStyle(card).transform !== "none"
+            ? window
+                .getComputedStyle(card)
+                .transform.match(/^matrix\((.+)\)$/)[1]
+                .split(", ")[0]
+            : 1
+        );
+
+        // 如果卡片不可見或縮小狀態，則添加放大動畫
+        if (currentOpacity < 0.5 || currentScale < 0.9) {
+          tl.fromTo(
+            card,
+            { opacity: 0, scale: 0.8 },
+            { opacity: 1, scale: 1, stagger: 0.05 },
+            0.2 // 輕微延遲，讓隱藏動畫先開始
+          );
         }
       });
 
-      // 收集需要隱藏和顯示的卡片
-      const cardsToHide = Array.from(projects).filter((project) => project.classList.contains("hidden-project"));
-      const cardsToShow = Array.from(projects).filter((project) => !project.classList.contains("hidden-project"));
+      // 第三步：使用 FLIP 技術實現卡片位移動畫
+      // 計算初始位置
+      const initialPositions = new Map();
+      cardsToShow.forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        initialPositions.set(card, { top: rect.top, left: rect.left });
+      });
 
-      if (useAnimation) {
-        // 首先隱藏需要隱藏的卡片
-        cardsToHide.forEach((card) => {
-          gsap.to(card, {
-            opacity: 0,
-            y: 15,
-            duration: 0.3,
-            ease: "power2.out",
-            onComplete: () => {
-              card.style.display = "none";
-            },
-          });
-        });
+      // 強制DOM更新
+      this.projectGrid.classList.add("filtering");
 
-        // 然後顯示需要顯示的卡片（使用階梯式延遲）
-        cardsToShow.forEach((card, index) => {
-          // 確保卡片可見
-          card.style.display = "";
-
-          // 檢查卡片當前狀態
-          const currentOpacity = parseFloat(window.getComputedStyle(card).opacity);
-
-          // 如果卡片已經可見，則不需要動畫
-          if (currentOpacity >= 0.9) return;
-
-          // 為卡片添加顯示動畫
-          gsap.fromTo(
-            card,
-            { y: 15, opacity: 0 },
-            {
-              y: 0,
-              opacity: 1,
-              duration: 0.5,
-              delay: 0.1 + index * 0.08, // 每張卡片延遲增加
-              ease: "power2.out",
-            }
-          );
-        });
-      } else {
-        // 不使用動畫，直接顯示/隱藏
-        cardsToHide.forEach((card) => {
-          card.style.display = "none";
-        });
-
+      // 計算最終位置並應用動畫
+      setTimeout(() => {
         cardsToShow.forEach((card) => {
-          card.style.display = "";
-          card.style.opacity = "1";
-          card.style.transform = "translateY(0)";
+          const initialPos = initialPositions.get(card);
+          const finalRect = card.getBoundingClientRect();
+          const deltaX = initialPos.left - finalRect.left;
+          const deltaY = initialPos.top - finalRect.top;
+
+          // 從原位置移動到新位置的動畫
+          if (Math.abs(deltaX) > 1 || Math.abs(deltaY) > 1) {
+            gsap.fromTo(card, { x: deltaX, y: deltaY }, { x: 0, y: 0, duration: 0.5, ease: "power2.out" });
+          }
         });
-      }
-    });
+
+        this.projectGrid.classList.remove("filtering");
+      }, 50);
+    } else {
+      // 不使用動畫，直接顯示/隱藏
+      projects.forEach((project) => {
+        const matchesFilter =
+          selectedTag === "all" || project.querySelector(`.tag[data-filter="${selectedTag}"]`) !== null;
+        project.style.display = matchesFilter ? "" : "none";
+        project.style.opacity = matchesFilter ? "1" : "0";
+        project.style.transform = "none";
+      });
+    }
   },
 };

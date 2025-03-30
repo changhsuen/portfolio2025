@@ -2,6 +2,7 @@
 :root {
   /* Colors */
   --white: #ffffff;
+  --black: #000000;
   --grey10: #f4f4f4;
   --grey20: #e0e0e0;
   --grey30: #c6c6c6;
@@ -81,8 +82,8 @@
   --screen-2xl: 1536px; /* @media (min-width: 1536px) */
 
   /* Transitions */
-  --theme-transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --theme-transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Dark Theme */

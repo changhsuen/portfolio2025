@@ -335,10 +335,10 @@ export const HorizontalScrollManager = {
         // 判斷是否應該設置為不可見
         // 如果已經應用了輪播效果，則不要設置為不可見，由輪播管理器處理
         if (!isCarousel) {
-          gsap.set(card, { opacity: 0, y: 20 });
+          gsap.set(card, { opacity: 0 }); // 移除 y: 20 只保留透明度
         } else {
           // 如果已經應用了輪播效果，確保卡片是可見的
-          gsap.set(card, { opacity: 1, y: 0 });
+          gsap.set(card, { opacity: 1 });
         }
       });
     }
@@ -348,7 +348,7 @@ export const HorizontalScrollManager = {
         // 移除首頁特殊類別（如果有）
         card.classList.remove("homepage-card");
         // 先設置為不可見，等待動畫系統觸發
-        gsap.set(card, { opacity: 0, y: 20 });
+        gsap.set(card, { opacity: 0 }); // 移除 y: 20 只保留透明度
       });
     }
   },
@@ -470,7 +470,7 @@ export const HorizontalScrollManager = {
       // 為每張圖片添加輕微的水平視差效果
       projectImages.forEach((img) => {
         // 可以適當增加視差係數
-        const parallaxFactor = -0.02;
+        const parallaxFactor = -0.05;
 
         // 計算視差位移量
         const parallaxOffset = scrollDistance * parallaxFactor;

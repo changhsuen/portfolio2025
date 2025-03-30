@@ -11,54 +11,37 @@
 }
 
 /* 
-   * 過濾標籤
-   * ---------------------------------------------- */
-.filter-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--spacing-03);
-  margin-bottom: var(--spacing-09);
-  max-width: 50%;
-  min-height: 2.5rem; /* 防止容器在空時塌陷 */
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-  transform: translateZ(0);
-  will-change: transform, opacity;
+ * 過濾標籤系統 - 專案列表頁特定
+ * ---------------------------------------------- */
+
+/* 專案列表頁的卡片網格布局變體 */
+.projects-header + .project-grid {
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
 }
 
-.filter-tag {
-  background-color: var(--layer-01);
-  color: var(--text-primary);
-  font-family: var(--font-en);
-  border: 0px;
-  padding: 0 16px;
-  height: 2.5rem;
-  border-radius: 1.25rem;
-  font-size: 1rem;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  cursor: pointer;
+/* 專案列表頁的卡片標題樣式 */
+.projects-header ~ .project-grid .project-title {
+  font-size: 1.125rem; /* 確保與原始大小一致 */
+  font-weight: 400;
+  margin-bottom: var(--spacing-01);
 }
 
-.filter-tag:hover {
-  background-color: var(--layer-hover-01);
-  color: var(--text-primary);
-}
-
-.filter-tag.active {
-  background-color: var(--layer-active-01);
-  color: var(--text-on-color);
-}
-
-/* 中文標籤文字樣式 */
-html[lang="zh-TW"] .filter-tag {
-  font-family: var(--font-tc);
+/* 專案列表頁的卡片圖片樣式 */
+.projects-header ~ .project-grid .project-image {
+  padding-top: 75%; /* 保持原始比例 */
 }
 
 /* 
-   * 響應式調整 - 僅專案列表頁
-   * ---------------------------------------------- */
+ * 響應式調整 - 專案列表頁特定
+ * ---------------------------------------------- */
+@media (max-width: 1200px) {
+  .projects-header + .project-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
 @media (max-width: 768px) {
+  /* 過濾標籤 - 手機版 */
   .filter-tags {
     max-width: 100%;
   }
@@ -66,5 +49,10 @@ html[lang="zh-TW"] .filter-tag {
   .filter-tag {
     height: 2rem;
     font-size: 0.875rem;
+  }
+
+  /* 專案網格 - 手機版 */
+  .projects-header + .project-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   }
 }

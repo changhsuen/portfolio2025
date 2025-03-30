@@ -59,26 +59,6 @@ html[lang="zh-TW"] .reveal-text {
   will-change: transform, opacity;
 }
 
-/* 
-   * 更多專案連結
-   * ---------------------------------------------- */
-.see-more-projects-container {
-  text-align: center;
-  margin-top: var(--spacing-07);
-  margin-bottom: var(--spacing-07);
-}
-
-.see-more-projects {
-  font-family: var(--font-mono);
-  color: var(--text-secondary);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.see-more-projects:hover {
-  color: var(--text-primary);
-}
-
 /* ==========================================================================
      水平滾動功能樣式
      只用於首頁的水平滾動專案展示效果
@@ -141,7 +121,7 @@ html[lang="zh-TW"] .horizontal-title {
 }
 
 /* 
-   * 專案卡片樣式
+   * 首頁水平滾動卡片變體
    * ---------------------------------------------- */
 .horizontal-scroll-section .projects-scroll-gallery .project-card {
   width: 40vw;
@@ -162,9 +142,7 @@ html[lang="zh-TW"] .horizontal-title {
   margin-right: var(--spacing-12);
 }
 
-/* 
-   * 卡片圖片容器
-   * ---------------------------------------------- */
+/* 卡片圖片容器 */
 .horizontal-scroll-section .projects-scroll-gallery .project-image {
   width: 100%;
   height: 100%;
@@ -173,22 +151,21 @@ html[lang="zh-TW"] .horizontal-title {
   left: 0;
   overflow: hidden;
   border-radius: var(--radius-01);
+  padding-top: 0; /* 覆蓋基本樣式 */
 }
 
 /* 圖片樣式 */
 .horizontal-scroll-section .projects-scroll-gallery .project-image img {
   position: absolute;
   top: 0;
-  left: -10%; /* 向左偏移，讓圖片居中顯示 */
-  width: 120%; /* 加寬，為視差效果提供更多空間 */
+  left: -10%; /* 修改為0，不再使用-10% */
+  width: 120%; /* 修改為100%，不再使用120% */
   height: 100%;
   object-fit: cover;
   will-change: transform; /* 提示瀏覽器這個元素會有變換 */
 }
 
-/* 
-   * 卡片信息容器
-   * ---------------------------------------------- */
+/* 卡片信息容器 */
 .horizontal-scroll-section .projects-scroll-gallery .project-info {
   position: absolute;
   top: 0;
@@ -240,7 +217,7 @@ html[lang="zh-TW"] .horizontal-title {
 }
 
 /* 
-   * 查看更多專案連結
+   * 首頁水平滾動查看更多專案連結
    * ---------------------------------------------- */
 .horizontal-scroll-section .see-more-projects-container {
   position: absolute;
@@ -390,7 +367,7 @@ html[lang="zh-TW"] .horizontal-title {
     margin-bottom: 0;
   }
 
-  .see-more-projects-container {
+  .horizontal-scroll-section .see-more-projects-container {
     position: relative !important; /* 強制使用相對定位 */
     height: 32px;
     align-items: center;

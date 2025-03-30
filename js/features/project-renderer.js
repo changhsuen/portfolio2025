@@ -92,7 +92,10 @@ export const ProjectRenderer = {
     console.log(`Rendering ${Object.keys(projects).length} projects for language: ${language}`);
 
     // 確認是否為首頁
-    const isHomePage = window.location.pathname.endsWith("index.html") || window.location.pathname.endsWith("/") || window.location.pathname.split("/").pop() === "";
+    const isHomePage =
+      window.location.pathname.endsWith("index.html") ||
+      window.location.pathname.endsWith("/") ||
+      window.location.pathname.split("/").pop() === "";
 
     // 決定要顯示的專案 ID
     let projectIdsToShow = Object.keys(projects);
@@ -126,10 +129,10 @@ export const ProjectRenderer = {
         // 判斷是否應該設置為不可見
         // 如果已經應用了輪播效果，則不要設置為不可見，由輪播管理器處理
         if (!isCarousel) {
-          gsap.set(card, { opacity: 0, y: 20 });
+          gsap.set(card, { opacity: 0 });
         } else {
           // 如果已經應用了輪播效果，確保卡片是可見的
-          gsap.set(card, { opacity: 1, y: 0 });
+          gsap.set(card, { opacity: 1 });
         }
       });
     }
@@ -139,7 +142,7 @@ export const ProjectRenderer = {
         // 移除首頁特殊類別（如果有）
         card.classList.remove("homepage-card");
         // 先設置為不可見，等待動畫系統觸發
-        gsap.set(card, { opacity: 0, y: 20 });
+        gsap.set(card, { opacity: 0 });
       });
     }
   },

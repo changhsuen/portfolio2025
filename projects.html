@@ -35,6 +35,48 @@
       document.addEventListener("DOMContentLoaded", () => {
         initializeSharedComponents();
       });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        // 獲取所有專案卡片圖片
+        const projectImages = document.querySelectorAll(".project-image img");
+
+        // 為每個圖片添加事件監聽器
+        projectImages.forEach((img) => {
+          const container = img.closest(".project-image");
+
+          // 監聽鼠標進入事件，記錄初始狀態
+          container.addEventListener("mouseenter", () => {
+            const styles = getComputedStyle(img);
+            console.log("Hover開始 - 圖片樣式:", {
+              width: styles.width,
+              left: styles.left,
+              transform: styles.transform,
+              overflow: getComputedStyle(container).overflow,
+            });
+          });
+
+          // 監聽鼠標移動事件，追蹤變化
+          container.addEventListener("mousemove", () => {
+            const styles = getComputedStyle(img);
+            // 檢查是否超出容器
+            const imgRect = img.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            const isOverflowing =
+              imgRect.left < containerRect.left ||
+              imgRect.right > containerRect.right ||
+              imgRect.top < containerRect.top ||
+              imgRect.bottom > containerRect.bottom;
+
+            if (isOverflowing) {
+              console.warn("圖片超出容器!", {
+                imgRect,
+                containerRect,
+                transform: styles.transform,
+              });
+            }
+          });
+        });
+      });
     </script>
   </body>
 </html>

@@ -85,12 +85,12 @@ export const CardAnimationManager = {
     sectionTitle.style.opacity = "1";
     sectionTitle.style.visibility = "visible";
 
-    // 應用動畫
+    // 應用動畫 - 加快標題動畫速度
     gsap.to(sectionTitle, {
       y: 0,
-      duration: 0.8,
+      duration: 0.5, // 從0.8減少到0.5
       ease: "power2.out",
-      delay: 1.5, // 延長延遲，確保文字動畫完成
+      delay: 0.2, // 從1.5減少到0.2，大幅降低延遲
       clearProps: "transform",
       onComplete: () => {
         if (!this.cardsAnimated) {
@@ -109,21 +109,19 @@ export const CardAnimationManager = {
 
     console.log(`找到 ${projectCards.length} 張卡片，開始設置動畫`);
 
+    // 立即讓所有卡片可見以加快顯示
     projectCards.forEach((card, index) => {
       const style = window.getComputedStyle(card);
       if (style.opacity > 0.5) return;
 
-      card.style.overflow = "hidden";
-      card.style.transform = "translateY(50px)";
-      card.style.opacity = "1";
+      card.style.opacity = "0"; // 初始設為不可見
       card.style.visibility = "visible";
 
       gsap.to(card, {
-        y: 0,
-        duration: 0.7,
-        ease: "power2.out",
-        delay: 0.1 + index * 0.1,
-        clearProps: "transform",
+        opacity: 1, // 只做淡入效果
+        duration: 0.3, // 從0.7減少到0.3
+        ease: "power1.out", // 使用更簡單的緩動效果
+        delay: 0.05 * index, // 從0.1 * index減少到0.05 * index
       });
     });
 
@@ -137,21 +135,12 @@ export const CardAnimationManager = {
     const filterTags = document.querySelector(".filter-tags");
 
     if (filterTags) {
-      const container = filterTags.parentElement;
-      if (container) container.style.overflow = "hidden";
-
-      filterTags.style.transform = "translateY(50px)";
+      // 直接設置標籤為可見，不需要動畫效果
       filterTags.style.opacity = "1";
       filterTags.style.visibility = "visible";
 
-      gsap.to(filterTags, {
-        y: 0,
-        duration: 0.5,
-        ease: "power2.out",
-        delay: 0.1,
-        clearProps: "transform",
-        onComplete: () => this.setupProjectPageCards(),
-      });
+      // 直接調用設置卡片的方法，不需等待過濾標籤動畫完成
+      this.setupProjectPageCards();
     } else {
       this.setupProjectPageCards();
     }
@@ -168,18 +157,15 @@ export const CardAnimationManager = {
       const style = window.getComputedStyle(card);
       if (style.opacity > 0.5) return;
 
-      card.style.overflow = "hidden";
-      card.style.transform = "translateY(50px)";
-      card.style.opacity = "1";
+      card.style.opacity = "0"; // 初始設為不可見
       card.style.visibility = "visible";
       card.style.display = "";
 
       gsap.to(card, {
-        y: 0,
-        duration: 0.5,
-        ease: "power2.out",
-        delay: 0.1 + index * 0.08,
-        clearProps: "transform",
+        opacity: 1, // 只做淡入效果
+        duration: 0.5, // 從0.5減少到0.3
+        ease: "power1.out", // 使用更簡單的緩動效果
+        delay: 0.08 * index, // 從0.08 * index減少到0.05 * index
       });
     });
 
