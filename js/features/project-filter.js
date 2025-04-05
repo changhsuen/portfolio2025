@@ -1,7 +1,7 @@
 import { translations } from "../core/constants.js";
 
 // ==============================================
-// 專案過濾管理器 - 解決與ProjectCardRenderer衝突
+// 專案過濾管理器 - 僅保留篩選動畫
 // ==============================================
 export const ProjectFilterManager = {
   filterInitialized: false, // 追蹤過濾器是否初始化
@@ -85,6 +85,7 @@ export const ProjectFilterManager = {
     // 監聽語言變更事件
     document.addEventListener("languageChanged", (e) => {
       console.log("ProjectFilterManager: Language changed to ", e.detail.language);
+
       // 語言變更後，重新創建標籤
       this.createFilterTags();
 
@@ -96,8 +97,19 @@ export const ProjectFilterManager = {
       }
     });
 
-    // 確保卡片在初始渲染後顯示
-    this.setupInitialDisplay();
+    // 監聽項目重新渲染事件 - 簡化版本
+    document.addEventListener("projectsRerendered", () => {
+      console.log("接收到projectsRerendered事件");
+      this.initialPageLoad = false;
+      this.cardAnimationApplied = true;
+
+      // 如果當前有特定過濾條件，需要重新套用
+      if (this.currentTag !== "all") {
+        setTimeout(() => {
+          this.filterProjects(this.currentTag);
+        }, 50);
+      }
+    });
 
     // 標記過濾器已初始化
     this.filterInitialized = true;
@@ -107,78 +119,6 @@ export const ProjectFilterManager = {
   isProjectsPage() {
     const path = window.location.pathname;
     return path.includes("projects.html");
-  },
-
-  // 設置初始顯示
-  setupInitialDisplay() {
-    if (this.cardAnimationApplied) return;
-
-    // 監聽 projectsRerendered 事件
-    document.addEventListener("projectsRerendered", () => {
-      // 檢查是否為初始載入
-      if (this.initialPageLoad) {
-        console.log("專案已渲染完成，執行全部卡片淡入效果");
-        // 延遲執行，確保卡片已完全渲染到DOM
-        setTimeout(() => {
-          this.showAllCardsWithFadeIn();
-          this.initialPageLoad = false;
-        }, 150);
-      }
-    });
-
-    // 確保頁面完全載入後卡片顯示正確
-    window.addEventListener("load", () => {
-      if (!this.cardAnimationApplied) {
-        console.log("頁面完全載入，確保卡片正確顯示");
-        this.showAllCardsWithFadeIn();
-      }
-    });
-
-    // 如果ProjectCardRenderer已經完成渲染，馬上執行淡入
-    if (window.ProjectCardRenderer && window.ProjectCardRenderer.rendererInitialized) {
-      setTimeout(() => {
-        this.showAllCardsWithFadeIn();
-      }, 200);
-    }
-  },
-
-  // 同時淡入所有卡片（頁面載入時使用）
-  showAllCardsWithFadeIn() {
-    if (this.cardAnimationApplied) return;
-
-    const projects = document.querySelectorAll(".project-card");
-    if (projects.length === 0) {
-      console.warn("找不到專案卡片");
-      return;
-    }
-
-    console.log(`執行所有卡片同時淡入效果 (找到 ${projects.length} 張卡片)`);
-
-    // 停止當前所有動畫
-    projects.forEach((project) => {
-      gsap.killTweensOf(project);
-    });
-
-    // 先把所有卡片設成透明
-    gsap.set(projects, { opacity: 0, scale: 1 });
-
-    // 稍微延遲後執行淡入動畫
-    setTimeout(() => {
-      // 同時淡入所有卡片
-      gsap.to(projects, {
-        opacity: 1,
-        duration: 0.5,
-        ease: "power1.inOut",
-        stagger: 0,
-        onComplete: () => {
-          console.log("卡片淡入動畫完成");
-        },
-      });
-    }, 100);
-
-    // 標記已執行卡片動畫
-    this.cardAnimationApplied = true;
-    this.initialPageLoad = false;
   },
 
   createFilterTags() {
@@ -258,9 +198,11 @@ export const ProjectFilterManager = {
     console.log(`使用 ${currentLang} 語言過濾標籤: ${selectedTag}`);
 
     // 停止所有正在進行的動畫
-    projects.forEach((project) => {
-      gsap.killTweensOf(project);
-    });
+    if (window.gsap) {
+      projects.forEach((project) => {
+        gsap.killTweensOf(project);
+      });
+    }
 
     // 標記每張卡片是否符合過濾條件
     const cardsStatus = new Map();
@@ -304,7 +246,7 @@ export const ProjectFilterManager = {
       projects.forEach((card) => {
         const status = cardsStatus.get(card);
         if (status.visible) {
-          card.style.display = "";
+          card.style.display = "block";
           card.style.opacity = "1";
           card.style.transform = "none";
         } else {
@@ -325,7 +267,8 @@ export const ProjectFilterManager = {
       const status = cardsStatus.get(card);
       // 如果卡片之前是隱藏的，需要顯示但初始透明度為0，並設置為縮小狀態
       if (!status.display) {
-        card.style.display = "";
+        card.style.display = "block";
+        card.style.visibility = "visible";
         gsap.set(card, { opacity: 0, scale: 0.8 });
       }
     });
@@ -371,6 +314,7 @@ export const ProjectFilterManager = {
             y: 0,
             duration: 0.4,
             ease: "power2.out",
+            clearProps: "x,y", // 完成後清除位置屬性，避免干擾後續操作
           });
         }
       }

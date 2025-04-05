@@ -1,4 +1,4 @@
-// ProjectCardRenderer.js - 專案頁卡片渲染器 (修正衝突版)
+// ProjectCardRenderer.js - 專案頁卡片渲染器 (無動畫效果)
 // 負責將專案資料渲染為專案頁的卡片 (project-card)
 
 import { projectsData } from "./projects-data.js";
@@ -53,7 +53,7 @@ export const ProjectCardRenderer = {
       setTimeout(() => {
         document.dispatchEvent(new CustomEvent("projectsRerendered"));
         renderInProgress = false;
-      }, 300);
+      }, 50);
 
       // 重新初始化游標修飾器，讓新渲染的元素也能有游標效果
       if (window.CustomCursor && window.innerWidth > 768) {
@@ -71,10 +71,10 @@ export const ProjectCardRenderer = {
     // 標記渲染器已初始化
     this.rendererInitialized = true;
 
-    // 通知卡片已經渲染完成，可以開始動畫效果
+    // 通知卡片已經渲染完成
     setTimeout(() => {
       document.dispatchEvent(new CustomEvent("projectsRerendered"));
-    }, 100);
+    }, 50);
   },
 
   // 設置過濾標籤動畫
@@ -135,9 +135,20 @@ export const ProjectCardRenderer = {
       }
     });
 
-    // 設置初始樣式 - 已移除，改由 ProjectFilterManager 統一處理卡片動畫
-    // 只是先把卡片設為不可見，避免加載時閃爍
-    gsap.set(projectGrid.querySelectorAll(".project-card"), { opacity: 0 });
+    // 設置所有卡片為完全可見
+    const allCards = projectGrid.querySelectorAll(".project-card");
+    if (allCards.length > 0) {
+      allCards.forEach((card) => {
+        card.style.opacity = "1";
+        card.style.visibility = "visible";
+        card.style.display = "block";
+      });
+    }
+
+    // 快速通知卡片已渲染完成
+    setTimeout(() => {
+      document.dispatchEvent(new CustomEvent("projectsRerendered"));
+    }, 50);
   },
 
   // 創建專案卡片
@@ -164,6 +175,11 @@ export const ProjectCardRenderer = {
     const card = document.createElement("div");
     card.className = "project-card";
     card.setAttribute("data-project-id", projectId);
+
+    // 設置卡片為完全可見
+    card.style.opacity = "1";
+    card.style.visibility = "visible";
+    card.style.display = "block";
 
     // 為每個標籤添加過濾屬性，以便於精確比對
     const tagsWithFilterAttr = project.tags

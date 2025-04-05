@@ -137,28 +137,6 @@
 }
 
 /* 
- * 專案圖片容器
- * ---------------------------------------------- */
-.project-image-container {
-  margin: var(--spacing-07) 0;
-  border-radius: var(--radius-02);
-  overflow: hidden;
-  width: 100%;
-  background-color: var(--grey20);
-}
-
-.project-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.project-image:hover {
-  transform: scale(1.02);
-}
-
-/* 
  * 專案導航
  * ---------------------------------------------- */
 .project-nav {
