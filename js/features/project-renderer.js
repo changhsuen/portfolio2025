@@ -212,8 +212,7 @@ export const ProjectRenderer = {
   getTagMappings() {
     return {
       "zh-TW": {
-        "ui-design": "介面設計",
-        "ux-research": "使用者研究",
+        "uiux-design": "UI/UX設計",
         "design-system": "設計系統",
         iconography: "圖標設計",
         prototyping: "原型設計",
@@ -224,8 +223,7 @@ export const ProjectRenderer = {
         packaging: "包裝設計",
       },
       en: {
-        "ui-design": "UI Design",
-        "ux-research": "UX Research",
+        "uiux-design": "UI/UX Design",
         "design-system": "Design System",
         iconography: "Iconography",
         prototyping: "Prototyping",

@@ -5,12 +5,12 @@
 export const projectsData = {
   // 中文資料
   "zh-TW": {
-    project1: {
-      title: "網頁設計系統",
-      description: "為企業建立一套完整的設計系統，確保品牌視覺一致性與開發效率",
-      image: "./assets/img/project1-cover.jpg",
-      link: "projects/project1.html",
-      tags: ["介面設計", "設計系統"],
+    gas: {
+      title: "欣南瓦斯行動帳單",
+      description: "為瓦斯帳單打造清晰易用的行動介面，協助用戶數位轉型",
+      image: "./projects/img/gas_cover.png",
+      link: "projects/gas.html",
+      tags: ["UI/UX設計"],
       showOnHomepage: true,
     },
     cnywb: {
@@ -34,7 +34,7 @@ export const projectsData = {
       description: "重新設計企業SaaS平台，提升使用者體驗和工作效率",
       image: "./assets/img/project4-cover.jpg",
       link: "projects/project4.html",
-      tags: ["介面設計", "SaaS", "使用者研究"],
+      tags: ["UI/UX設計", "SaaS"],
       showOnHomepage: true,
     },
     fishEssence: {
@@ -49,12 +49,12 @@ export const projectsData = {
 
   // 英文資料
   en: {
-    project1: {
-      title: "Web Design System",
-      description: "Developed a comprehensive design system for enterprise, ensuring brand consistency and development efficiency",
-      image: "./assets/img/project1-cover.jpg",
-      link: "projects/project1.html",
-      tags: ["UI Design", "Design System"],
+    gas: {
+      title: "Shin Nan Gas Mobile Billing",
+      description: "A clear and user-friendly billing UI to support digital transition",
+      image: "./projects/img/gas_cover.png",
+      link: "projects/gas.html",
+      tags: ["UI/UX Design"],
       showOnHomepage: true,
     },
     habu: {
@@ -73,7 +73,14 @@ export const projectsData = {
       tags: ["Graphic Design", "Motion Graphic"],
       showOnHomepage: true,
     },
-
+    project4: {
+      title: "SaaS Platform Redesign",
+      description: "Redesigned enterprise SaaS platform for better user experience and efficiency",
+      image: "./assets/img/project4-cover.jpg",
+      link: "projects/project4.html",
+      tags: ["UI/UX Design", "SaaS"],
+      showOnHomepage: true,
+    },
     fishEssence: {
       title: "Jiazhi fish essence",
       description: "Nature's vitality, elegantly bottled",

@@ -36,8 +36,7 @@ export const translations = {
 
     // 專案篩選標籤
     filterAll: "全部",
-    filterUiDesign: "介面設計",
-    filterUxResearch: "使用者研究",
+    filterUiUxDesign: "UI/UX設計",
     filterDesignSystem: "設計系統",
     filterIconography: "圖標設計",
     filterPrototyping: "原型設計",
@@ -71,8 +70,7 @@ export const translations = {
 
     // Project filter tags
     filterAll: "All",
-    filterUiDesign: "UI Design",
-    filterUxResearch: "UX Research",
+    filterUiUxDesign: "UI/UX Design",
     filterDesignSystem: "Design System",
     filterIconography: "Iconography",
     filterPrototyping: "Prototyping",

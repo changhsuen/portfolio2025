@@ -31,8 +31,7 @@ export const ProjectFilterManager = {
     // 標籤的 key 值（用於篩選和翻譯）
     this.tagKeys = [
       "all",
-      "ui-design",
-      "ux-research",
+      "uiux-design",
       "design-system",
       "iconography",
       "prototyping",
@@ -45,8 +44,7 @@ export const ProjectFilterManager = {
     // 翻譯到卡片標籤的映射關係
     this.tagMappings = {
       "zh-TW": {
-        "ui-design": "介面設計",
-        "ux-research": "使用者研究",
+        "uiux-design": "UI/UX設計",
         "design-system": "設計系統",
         iconography: "圖標設計",
         prototyping: "原型設計",
@@ -57,8 +55,7 @@ export const ProjectFilterManager = {
         packaging: "包裝設計",
       },
       en: {
-        "ui-design": "UI Design",
-        "ux-research": "UX Research",
+        "uiux-design": "UI/UX Design",
         "design-system": "Design System",
         iconography: "Iconography",
         prototyping: "Prototyping",
