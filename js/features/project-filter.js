@@ -41,6 +41,19 @@ export const ProjectFilterManager = {
       "motion-graphic",
     ];
 
+    // 標籤 ID 到翻譯鍵的映射（修正）
+    this.tagToLangKeyMap = {
+      all: "filterAll",
+      "uiux-design": "filterUiUxDesign", // 修正為正確的翻譯鍵
+      "design-system": "filterDesignSystem",
+      iconography: "filterIconography",
+      prototyping: "filterPrototyping",
+      "brand-identity": "filterBrandIdentity",
+      saas: "filterSaas",
+      "graphic-design": "filterGraphicDesign",
+      "motion-graphic": "filterMotionGraphic",
+    };
+
     // 翻譯到卡片標籤的映射關係
     this.tagMappings = {
       "zh-TW": {
@@ -123,10 +136,14 @@ export const ProjectFilterManager = {
     const currentLang = document.documentElement.getAttribute("lang") || "en";
     const tagsHTML = this.tagKeys
       .map((tag) => {
-        const langKey = `filter${tag
-          .split("-")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join("")}`;
+        // 使用預定義的翻譯鍵映射
+        const langKey = this.tagToLangKeyMap[tag] || `filter${tag.charAt(0).toUpperCase() + tag.slice(1)}`;
+
+        // 檢查標籤翻譯是否存在
+        const tagText = translations[currentLang]?.[langKey] || tag;
+
+        // 調試輸出
+        console.log(`標籤: ${tag}, 翻譯鍵: ${langKey}, 顯示文本: ${tagText}`);
 
         return `
         <button 
@@ -134,7 +151,7 @@ export const ProjectFilterManager = {
           data-tag="${tag}"
           data-lang-key="${langKey}"
         >
-          ${translations[currentLang]?.[langKey] || tag}
+          ${tagText}
         </button>
       `;
       })
