@@ -60,38 +60,18 @@
 }
 
 /* 主內容區域 */
-.main {
+.hero-section + .main {
   position: relative;
   z-index: 2; /* 確保主內容在 hero section 上層 */
-}
-
-/* 調整導航欄樣式，確保它始終固定顯示 */
-.nav {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: background-color;
-}
-
-/* 移除導航欄隱藏的變換效果 */
-.nav.nav-hidden {
-  transform: none !important;
-}
-
-/* 確保導航欄在移動設備上也不隱藏 */
-.mobile-nav-controls.nav-hidden {
-  transform: none !important;
-  opacity: 1 !important;
+  margin-top: 0;
+  padding: 0 0 var(--spacing-08) 0;
 }
 
 /* 
  * 首頁標題區域
  * ---------------------------------------------- */
 .header {
-  height: auto;
+  /* height: 50vh; */
   display: flex;
   flex-direction: column;
   justify-content: left;
@@ -231,6 +211,7 @@ html[lang="zh-TW"] .reveal-text {
   margin-right: calc(50% - 50vw);
   margin-top: var(--spacing-05);
   overflow: hidden; /* 避免水平滾動條 */
+  background: var(--layer-01);
 }
 
 .horizontal-scroll-section {

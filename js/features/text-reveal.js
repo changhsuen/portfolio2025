@@ -1,8 +1,10 @@
 // 改進的 text-reveal.js 版本 - 支援響應式設計的中文逐行顯示
+// 滾動觸發版本
 
 export const TextRevealManager = {
   initialized: false,
   cardsAnimated: false,
+  scrollTriggers: [], // 用於存儲所有 ScrollTrigger 實例
 
   init() {
     if (this.initialized) return;
@@ -10,6 +12,12 @@ export const TextRevealManager = {
 
     window.TextRevealManager = this;
     this.initialized = true;
+
+    // 確保GSAP和ScrollTrigger已經載入
+    if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
+      console.error("GSAP 或 ScrollTrigger 未正確載入，無法初始化滾動動畫");
+      return;
+    }
 
     // 頁面載入後執行
     if (document.readyState === "complete") {
@@ -23,7 +31,7 @@ export const TextRevealManager = {
       console.log("語言變更，重新設置動畫");
       // 延遲執行，確保DOM已更新
       setTimeout(() => {
-        // 清除舊的動畫結構
+        // 清除舊的動畫結構和觸發器
         this.clearTextAnimations();
         // 然後重新設置
         this.setupTextReveal();
@@ -54,8 +62,16 @@ export const TextRevealManager = {
     };
   },
 
-  // 清除所有文字動畫相關結構
+  // 清除所有文字動畫相關結構和滾動觸發器
   clearTextAnimations() {
+    // 清除滾動觸發器
+    this.scrollTriggers.forEach((trigger) => {
+      if (trigger) {
+        trigger.kill();
+      }
+    });
+    this.scrollTriggers = [];
+
     const elements = document.querySelectorAll(".reveal-text");
     elements.forEach((element) => {
       // 獲取原始文字
@@ -66,9 +82,9 @@ export const TextRevealManager = {
       // 重置元素內容
       element.innerHTML = originalText;
 
-      // 確保可見性
-      element.style.visibility = "visible";
-      element.style.opacity = "1";
+      // 重置可見性，但保持隱藏狀態以便滾動觸發
+      element.style.visibility = "hidden";
+      element.style.opacity = "0";
     });
   },
 
@@ -80,8 +96,8 @@ export const TextRevealManager = {
     // 處理文字分割 - 中英文使用不同邏輯
     this.processElements(isChinese);
 
-    // 應用動畫
-    this.applyAnimations();
+    // 應用滾動觸發動畫
+    this.applyScrollAnimations();
   },
 
   // 根據螢幕寬度獲取每行字符數
@@ -159,6 +175,9 @@ export const TextRevealManager = {
     // 添加設備類型標記，方便CSS定位
     const deviceType = this.getDeviceType();
     element.setAttribute("data-device", deviceType);
+
+    // 設置初始隱藏狀態，等待滾動觸發
+    gsap.set(element, { autoAlpha: 0 });
   },
 
   // 獲取當前設備類型
@@ -223,45 +242,76 @@ export const TextRevealManager = {
     // 添加設備類型標記
     const deviceType = this.getDeviceType();
     element.setAttribute("data-device", deviceType);
+
+    // 設置初始隱藏狀態，等待滾動觸發
+    gsap.set(element, { autoAlpha: 0 });
   },
 
-  // 應用動畫效果
-  applyAnimations() {
+  // 應用滾動觸發動畫
+  applyScrollAnimations() {
     const revealElements = document.querySelectorAll(".reveal-text");
 
-    // 確保 GSAP 已正確載入
-    if (typeof gsap !== "undefined") {
-      // 先確保所有元素可見
-      revealElements.forEach((element) => {
-        gsap.set(element, { autoAlpha: 1 });
-      });
-
-      // 為每個元素應用動畫
-      revealElements.forEach((element) => {
-        const lines = element.querySelectorAll(".words");
-
-        if (lines.length > 0) {
-          // 應用逐行顯示動畫
-          gsap.from(lines, {
-            duration: 1,
-            yPercent: 100,
-            ease: "power3.out",
-            stagger: 0.1,
-            delay: 0.2,
-          });
-        } else {
-          // 如果沒有行元素，確保文字可見
-          element.style.visibility = "visible";
-          element.style.opacity = "1";
-        }
-      });
-    } else {
-      // 如果GSAP未載入，至少確保文字可見
+    // 確保 GSAP 和 ScrollTrigger 已正確載入
+    if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
+      console.error("GSAP 或 ScrollTrigger 未正確載入");
+      // 如果未載入，至少確保文字可見
       revealElements.forEach((element) => {
         element.style.visibility = "visible";
         element.style.opacity = "1";
       });
-      console.error("GSAP 未正確載入");
+      return;
     }
+
+    // 為每個元素應用滾動觸發動畫
+    revealElements.forEach((element) => {
+      const lines = element.querySelectorAll(".words");
+
+      if (lines.length > 0) {
+        // 創建時間線
+        const tl = gsap.timeline({
+          paused: true,
+          defaults: { duration: 1, ease: "power3.out" },
+        });
+
+        // 首先顯示元素本身
+        tl.to(element, { autoAlpha: 1, duration: 0.5 });
+
+        // 然後逐行顯示
+        tl.from(
+          lines,
+          {
+            yPercent: 100,
+            stagger: 0.1,
+          },
+          "-=0.3"
+        ); // 稍微提前開始行動畫
+
+        // 創建 ScrollTrigger
+        const trigger = ScrollTrigger.create({
+          trigger: element,
+          start: "top 80%", // 當元素頂部到達視窗 80% 位置時觸發
+          // 可以根據需要調整這個值，例如 "top 75%" 或 "top bottom-=100"
+          onEnter: () => {
+            tl.play();
+          },
+          once: true, // 只觸發一次
+        });
+
+        // 保存觸發器引用以便後續清理
+        this.scrollTriggers.push(trigger);
+      } else {
+        // 如果沒有行元素，使用簡單的滾動顯示
+        const trigger = ScrollTrigger.create({
+          trigger: element,
+          start: "top 80%",
+          onEnter: () => {
+            gsap.to(element, { autoAlpha: 1, duration: 0.5 });
+          },
+          once: true,
+        });
+
+        this.scrollTriggers.push(trigger);
+      }
+    });
   },
 };
