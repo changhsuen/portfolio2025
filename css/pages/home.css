@@ -25,7 +25,7 @@
   /* 基本尺寸由 GSAP 控制 */
   background-color: var(--icon-primary);
   mask-image: url(../../assets/Logo.svg);
-  mask-position: center;
+  mask-position: start;
   mask-repeat: no-repeat;
   mask-size: contain;
   -webkit-mask-image: url(../../assets/Logo.svg);
