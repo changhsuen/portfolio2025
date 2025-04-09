@@ -8,6 +8,7 @@ import { TextRevealManager } from "./features/text-reveal.js";
 import { ProjectFilterManager } from "./features/project-filter.js";
 import { HomeCardRenderer } from "./features/HomeCardRenderer.js"; // 導入整合版首頁卡片渲染器
 import { ProjectCardRenderer } from "./features/ProjectCardRenderer.js"; // 導入專案頁卡片渲染器
+import { HeroSectionManager } from "./features/hero-section.js"; // 導入 Hero Section 管理器
 
 // 設置一個全域變數來追蹤初始化狀態
 window.siteInitialized = window.siteInitialized || false;
@@ -68,6 +69,20 @@ document.addEventListener("DOMContentLoaded", () => {
   MobileMenuManager.init();
   CustomCursor.init();
   NavbarScrollManager.init();
+
+  // 如果是首頁，初始化 Hero Section 管理器
+  if (isHomePage()) {
+    console.log("初始化 Hero Section 管理器");
+    // 確保共用元件已初始化後再初始化 Hero Section
+    const checkComponentsInitialized = () => {
+      if (window.componentsInitialized) {
+        HeroSectionManager.init();
+      } else {
+        setTimeout(checkComponentsInitialized, 50);
+      }
+    };
+    checkComponentsInitialized();
+  }
 
   // 更新常量中的翻譯
   updateTranslations();

@@ -4,10 +4,94 @@
 ========================================================================== */
 
 /* 
+ * Hero Section 結構 - 首頁特定
+ * ---------------------------------------------- */
+.hero-section {
+  width: 100%;
+  height: 100vh; /* 設置為視窗高度 */
+  position: relative;
+  z-index: 1;
+  pointer-events: none; /* 讓 section 本身不攔截點擊事件 */
+}
+
+.hero-logo-container {
+  width: 100%;
+  height: 0; /* 不佔用實際高度 */
+  position: relative;
+  pointer-events: none; /* 不攔截點擊事件 */
+}
+
+.hero-logo {
+  /* 基本尺寸由 GSAP 控制 */
+  background-color: var(--icon-primary);
+  mask-image: url(../../assets/Logo.svg);
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-image: url(../../assets/Logo.svg);
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  transform-origin: center;
+  pointer-events: auto; /* 確保 logo 可點擊 */
+  cursor: pointer;
+}
+
+/* 調整導航欄樣式，確保它始終固定顯示 */
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: background-color;
+}
+
+/* 移除導航欄隱藏的變換效果 */
+.nav.nav-hidden {
+  transform: none !important;
+}
+
+/* 確保導航欄在移動設備上也不隱藏 */
+.mobile-nav-controls.nav-hidden {
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+/* 主內容區域 */
+.main {
+  position: relative;
+  z-index: 2; /* 確保主內容在 hero section 上層 */
+}
+
+/* 調整導航欄樣式，確保它始終固定顯示 */
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: background-color;
+}
+
+/* 移除導航欄隱藏的變換效果 */
+.nav.nav-hidden {
+  transform: none !important;
+}
+
+/* 確保導航欄在移動設備上也不隱藏 */
+.mobile-nav-controls.nav-hidden {
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+/* 
  * 首頁標題區域
  * ---------------------------------------------- */
 .header {
-  height: 100vh;
+  height: auto;
   display: flex;
   flex-direction: column;
   justify-content: left;
