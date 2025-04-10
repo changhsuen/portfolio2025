@@ -1,6 +1,6 @@
 /* ==========================================================================
    關於頁特定樣式 (ABOUT.CSS)
-   只用於關於頁 (about.html) 的特定樣式
+   只用於關於頁 (about.html) 的特定樣式，完全依照截圖樣式
 ========================================================================== */
 
 /* 
@@ -8,47 +8,46 @@
  * ---------------------------------------------- */
 .about-wrapper {
   display: grid;
-  grid-template-columns: 1fr 2fr; /* 將頁面分成兩等份 */
+  grid-template-columns: 280px 1fr; /* 左側圖片區，右側內容區 */
   gap: var(--spacing-09);
   margin-top: var(--spacing-09);
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* 
-   * 圖片區域
-   * ---------------------------------------------- */
+ * 圖片區域
+ * ---------------------------------------------- */
 .image-section {
   display: flex;
-  justify-content: flex-start; /* 靠左對齊 */
+  justify-content: flex-start;
 }
 
 .about-img {
-  width: 320px;
-  height: 320px;
+  width: 240px;
+  height: 240px;
   border-radius: 8px;
   object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.about-img:hover {
-  transform: scale(1.02);
 }
 
 /* 
-   * 內容區域
-   * ---------------------------------------------- */
-.about-content {
+ * 內容區域
+ * ---------------------------------------------- */
+/* .about-content {
   max-width: 720px;
-}
+} */
 
 .about-content h1 {
   font-size: 2rem;
   font-weight: 500;
   margin-bottom: var(--spacing-05);
+  color: var(--text-primary);
 }
 
 .about-description p {
   margin-bottom: var(--spacing-05);
-  font-size: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(1rem, 3vw, 1.125rem);
   line-height: 1.6;
   color: var(--text-primary);
 }
@@ -64,8 +63,221 @@ html[lang="zh-TW"] .about-description p {
 }
 
 /* 
-   * 響應式調整 - 僅關於頁
-   * ---------------------------------------------- */
+ * 各區塊共用樣式 - 左右排列布局
+ * ---------------------------------------------- */
+.section-container {
+  display: flex;
+  margin-top: var(--spacing-09);
+  padding-bottom: var(--spacing-05);
+}
+
+.section-container:last-child {
+  border-bottom: none;
+}
+
+.section-container h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  flex: 0 0 200px; /* 固定寬度 */
+  margin-right: var(--spacing-05);
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.section-content {
+  flex: 1; /* 佔據剩餘空間 */
+}
+
+/* 
+ * 經驗部分樣式
+ * ---------------------------------------------- */
+.experience-item {
+  margin-bottom: var(--spacing-05);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--spacing-05);
+}
+
+.experience-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.experience-date {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-02);
+  font-family: var(--font-mono);
+}
+
+.experience-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.experience-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+/* 展開/收合按鈕 */
+.experience-toggle {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 0px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.experience-toggle:hover {
+  background-color: var(--background-hover);
+}
+
+.experience-toggle span {
+  position: absolute;
+  width: 14px;
+  height: 2px;
+  background-color: var(--text-primary);
+  transition: transform 0.3s;
+}
+
+.experience-toggle span:first-child {
+  transform: rotate(90deg);
+}
+
+.experience-toggle.active span:first-child {
+  transform: rotate(0);
+}
+
+/* 經驗詳情區域 */
+.experience-details {
+  margin-top: var(--spacing-05);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.experience-list {
+  padding-left: var(--spacing-05);
+  margin-bottom: 0;
+}
+
+.experience-list li {
+  margin-bottom: var(--spacing-03);
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+}
+
+.experience-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* 
+ * 教育部分樣式
+ * ---------------------------------------------- */
+.education-item {
+  margin-bottom: var(--spacing-05);
+}
+
+.education-item:last-child {
+  margin-bottom: 0;
+}
+
+.education-date {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--spacing-02);
+  font-family: var(--font-mono);
+}
+
+.education-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin: 0 0 var(--spacing-02) 0;
+  color: var(--text-primary);
+}
+
+.education-department {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+/* 
+ * 技能部分樣式
+ * ---------------------------------------------- */
+.skills-list {
+  list-style-type: disc;
+  padding-left: var(--spacing-05);
+  margin: 0;
+}
+
+.skills-list li {
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  margin-bottom: var(--spacing-03);
+}
+
+.skills-list li:last-child {
+  margin-bottom: 0;
+}
+
+/* 
+ * 獎項部分樣式
+ * ---------------------------------------------- */
+.awards-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.award-item {
+  display: flex;
+  margin-bottom: var(--spacing-03);
+}
+
+.award-item:last-child {
+  margin-bottom: 0;
+}
+
+.award-year {
+  flex: 0 0 60px;
+  font-size: 1rem;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.award-title {
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+}
+
+/* 
+ * 響應式調整 - 僅關於頁
+ * ---------------------------------------------- */
+@media (max-width: 1024px) {
+  .about-wrapper {
+    grid-template-columns: 220px 1fr;
+    gap: var(--spacing-07);
+  }
+
+  .about-img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .section-container h2 {
+    flex: 0 0 150px;
+  }
+}
+
 @media (max-width: 768px) {
   .about-wrapper {
     display: flex;
@@ -88,7 +300,23 @@ html[lang="zh-TW"] .about-description p {
     text-align: center;
   }
 
-  .about-description p {
-    font-size: 1rem;
+  /* 在手機版上改為垂直排列 */
+  .section-container {
+    display: block; /* 取消 flex 布局，改用 block */
+    margin-bottom: var(--spacing-07);
+  }
+
+  /* 標題樣式調整 */
+  .section-container h2 {
+    display: block;
+    margin-bottom: var(--spacing-05); /* 適當的標題底部間距 */
+    width: 100%; /* 讓標題佔滿寬度 */
+    font-size: 1.5rem; /* 保持標題大小一致 */
+  }
+
+  /* 內容區塊調整 */
+  .section-content {
+    display: block;
+    width: 100%; /* 讓內容佔滿寬度 */
   }
 }
