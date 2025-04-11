@@ -69,7 +69,7 @@
 }
 
 .project-section-title {
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   margin-bottom: var(--spacing-03);
   font-weight: 500;
 }
@@ -82,23 +82,22 @@
  * 專案信息卡片
  * ---------------------------------------------- */
 .project-info-grid {
-  display: grid;
-  background-color: var(--layer-01);
-  border-radius: var(--radius-01);
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  justify-content: space-between;
   gap: var(--spacing-07);
   margin-bottom: var(--spacing-07);
+  border-bottom: solid 1px var(--border);
 }
 
 .info-card {
-  padding: var(--spacing-05);
-  transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  padding-bottom: var(--spacing-05);
 }
 
 .info-card-title {
-  font-weight: 500;
+  font-weight: 400;
+  font-size: 1rem;
+  color: var(--text-secondary);
   margin-bottom: var(--spacing-03);
-  color: var(--text-primary);
 }
 
 /* 
@@ -110,20 +109,21 @@
 
 .project-content p {
   margin-bottom: var(--spacing-05);
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .project-content ul,
 .project-content ol {
   margin-bottom: var(--spacing-05);
-  padding-left: var(--spacing-07);
+  padding-left: var(--spacing-05);
 }
 
 .project-content li {
   margin-bottom: var(--spacing-03);
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font-size: 1rem;
+  line-height: 1.5;
+  list-style: "–  ";
 }
 
 .project-content a {
@@ -143,7 +143,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: var(--spacing-09);
-  padding-top: var(--spacing-05);
+  padding: var(--spacing-05) 0;
   border-top: 1px solid var(--border);
 }
 

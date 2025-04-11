@@ -17,7 +17,7 @@
 /* 主內容區域 */
 .main {
   margin-top: var(--spacing-11);
-  padding: var(--spacing-08) 0;
+  padding: var(--spacing-08) 0 0 0;
   overflow-x: hidden;
 }
 

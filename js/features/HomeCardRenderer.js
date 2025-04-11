@@ -480,7 +480,7 @@ export const HomeCardRenderer = {
       // 為每張圖片添加輕微的水平視差效果
       cardImages.forEach((img) => {
         // 視差係數
-        const parallaxFactor = -0.05;
+        const parallaxFactor = -0.02;
 
         // 計算視差位移量
         const parallaxOffset = scrollDistance * parallaxFactor;
